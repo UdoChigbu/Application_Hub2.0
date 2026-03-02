@@ -136,27 +136,7 @@ label{
  
 }
 
-.close_btn{
-   font-size:60px;
-   
-    
-    color: rgb(255, 255, 255);
-    background-color: transparent;
-    border-radius: 50px;
-    border: none;
-    font-weight: normal;
-    cursor: pointer;
-}
-.close_btn_container{
-    position: absolute;
-    top: 1px;
-    right: 10px;
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+
 
 .error_message{
     position: absolute;

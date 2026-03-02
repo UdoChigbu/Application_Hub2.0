@@ -4,7 +4,7 @@ import "../styles/Login.css";
 
 function Login(){
     const [errorMessage, setErrorMessage] = useState("");
-
+    const navigate = useNavigate();
     const[formData, setFormData]=useState({
         email:"",
         password:""
@@ -60,6 +60,12 @@ return(
         
         <div className="login_module">
                 <h1>Login</h1>
+                 <button
+                    className="close_login_btn"
+                    onClick={() => navigate("/Signup")}
+                >
+                    &times;
+                </button>
                 {errorMessage && <p className="error_message">{errorMessage}</p>}
                 <form id="login_form" onSubmit={handleSubmit}>
                 <label htmlFor="email">Email</label>

@@ -4,6 +4,18 @@
     height:100%;
     background: linear-gradient(to bottom, #f5f4ff, #4535fd);
 }
+.close_login_btn{
+    position: absolute;
+   font-size:60px;
+    top:3%;
+    left:90%;
+    color: rgb(255, 255, 255);
+    background-color: transparent;
+    border-radius: 50px;
+    border: none;
+    font-weight: normal;
+    cursor: pointer;
+}
 .login_module h1{
     top:3%;
     font-size: 3.8ch;

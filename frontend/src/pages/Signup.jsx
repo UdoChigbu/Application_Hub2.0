@@ -70,14 +70,7 @@ function Signup() {
 <div className="background">
     <div className="signup_modal">
       <div className="signup_modal_content">
-        <div className="close_btn_container">
-          <button
-            className="close_btn"
-            onClick={() => navigate("/welcome")}
-          >
-            &times;
-          </button>
-        </div>
+       
 
         {/* Left side */}
         <div className="left_side">
