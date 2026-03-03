@@ -1,12 +1,17 @@
 package com.apphub.backend.Services;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.apphub.backend.models.User;
 import com.apphub.backend.repositories.User_repository;
 
 @Service
 public class User_service {
+
+    @Autowired
+    private PasswordEncoder password_encoder;
 
     private final User_repository user_repository;
     public User_service(User_repository user_repository){
@@ -16,7 +21,8 @@ public class User_service {
 
 
     public void insert_user(String first, String last, String email, String password, String confirm_password){
-        User user= new User(first, last, email, password);
+        String hashed_password = password_encoder.encode(password);
+        User user= new User(first, last, email, hashed_password);
         user_repository.save(user);
         
     }
@@ -35,7 +41,7 @@ public class User_service {
         User user= user_repository.findByEmail(email);
         
         //if user is not null and pw is correct return true else return false
-        return user !=null && password.equals(user.getPassword());
+        return user !=null && password_encoder.matches(password,user.getPassword());
         
     }
 

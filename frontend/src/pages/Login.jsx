@@ -107,22 +107,5 @@ return(
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 export default Login;

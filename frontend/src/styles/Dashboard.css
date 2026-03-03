@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+.background{
+    font-family: 'Inter', sans-serif;
+    height:100%;
+    background:white;
+}
+.background h1{
+    font-size: 2.8ch;
+    position: absolute;
+    font-weight: 400;
+    color:#4535fd;
+    letter-spacing: .01em;
+    font-weight: 370;
+}
