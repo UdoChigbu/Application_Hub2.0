@@ -22,17 +22,21 @@ public class User_service {
     }
 
     public boolean email_exists(String email){
-        if(user_repository.existsByEmail(email)){
-            return true;
-        }
-        return false;
+       //if email exists return true else return false
+        return user_repository.existsByEmail(email);
     }
 
     public boolean passwords_match(String password, String confirm_password){
-        if (password.equals(confirm_password)){
-            return true;
-        }
-        return false;
+        // return true if pw's match else return false
+        return password.equals(confirm_password);
+    }
+
+    public boolean login_user(String email, String password){
+        User user= user_repository.findByEmail(email);
+        
+        //if user is not null and pw is correct return true else return false
+        return user !=null && password.equals(user.getPassword());
+        
     }
 
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../styles/Login.css";
 
 function Login(){
@@ -12,23 +12,21 @@ function Login(){
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
+          
         if(!formData.email||!formData.password)
             {
             setErrorMessage("Please fill in all fields.");
             return;
             }
-
-        try{
-            const response = await fetch(
-                "http://localhost:8081/api/login",
-                {
-                    method:"POST",
-                    headers:{
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(formData)
-                }
-            );
+            //send login info to backend
+        try {
+        const response = await fetch("http://localhost:8081/api/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+        });
 
             const data = await response.json();
             if(response.ok){

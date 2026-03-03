@@ -7,4 +7,5 @@ import com.apphub.backend.models.User;
 @Repository
 public interface User_repository extends JpaRepository <User, Long>{
     Boolean existsByEmail(String email);
+    User findByEmail(String email);
 }

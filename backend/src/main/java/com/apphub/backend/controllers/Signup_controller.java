@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +14,7 @@ import com.apphub.backend.Services.User_service;
 
 
 
-@CrossOrigin(origins = "http://localhost:5173")
+
 @RestController
 @RequestMapping("/api")
 public class Signup_controller {
@@ -28,7 +28,7 @@ public class Signup_controller {
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody Map<String, Object> user_data) {
     
-
+System.out.println("SIGNUP HIT");
         String first=(String) user_data.get("first_name");
         String last=(String) user_data.get("last_name");
         String email=(String) user_data.get("email");
@@ -48,7 +48,9 @@ public class Signup_controller {
         }
         else{
             user_service.insert_user(first, last, email, password, confirm_password);
-            return ResponseEntity.ok("Signup works");
+           return ResponseEntity.ok(
+            Map.of("message", "Signup successful")
+        );
         }
 
         

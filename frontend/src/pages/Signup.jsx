@@ -23,7 +23,7 @@ function Signup() {
   const handleSubmit = async(e) => {
     e.preventDefault();
 
-    // Simple validation example
+  //validate fields
     if (
       !formData.first_name ||
       !formData.last_name ||
@@ -61,6 +61,7 @@ function Signup() {
         }
         } catch (err) {
             console.error(err);
+            console.log(err);
             setErrorMessage("Something went wrong. Please try again.");
         }
 
