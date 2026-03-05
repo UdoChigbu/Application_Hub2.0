@@ -54,7 +54,7 @@ function Signup() {
 
         if (response.ok) {
         // Success
-        navigate("/welcome"); // Redirect after signup
+        navigate("/login"); // Redirect after signup
         } else {
         // Backend returned an error
         setErrorMessage(data.message || "Signup failed");

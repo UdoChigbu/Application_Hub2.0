@@ -37,11 +37,14 @@ public class User_service {
         return password.equals(confirm_password);
     }
 
-    public boolean login_user(String email, String password){
+    public User login_user(String email, String password){
         User user= user_repository.findByEmail(email);
-        
-        //if user is not null and pw is correct return true else return false
-        return user !=null && password_encoder.matches(password,user.getPassword());
+
+        //if user is not null and pw is correct return user
+        if(user!=null && password_encoder.matches(password,user.getPassword())){
+            return user;
+        }
+        return null;
         
     }
 
