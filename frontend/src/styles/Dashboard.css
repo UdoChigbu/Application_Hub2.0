@@ -1,14 +1,153 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-.background{
+
+.dashboard_background{
     font-family: 'Inter', sans-serif;
     height:100%;
-    background:white;
+    background: radial-gradient(circle at top left,#eaeefc,#cfe7ff);
+   
 }
-.background h1{
+.dashboard_background h1{
     font-size: 2.8ch;
     position: absolute;
-    font-weight: 400;
     color:#4535fd;
     letter-spacing: .01em;
-    font-weight: 370;
+    top:-1%;
+    font-weight: 190;
+   
+}
+
+.welcome_message{
+    font-size: 4ch;
+    position: absolute;
+    color:#4535fd;
+    letter-spacing: .01em;
+    font-weight: 600;
+    top:3%;
+    left:1%;
+}
+
+.quick_actions_box{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    left:76%;
+    top:6%;
+    gap:20px;
+    align-items: center;
+}
+
+.quick_actions_btn{
+    
+    width: 180px;
+    height: 50px;
+    border-radius: 12px;
+    border: none;
+    background-color: #300cff;
+    color: rgb(255, 255, 255);
+   
+    font-size: 15px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.quick_actions_btn:hover{
+transform:translateY(-6px);
+  transition:0.25s;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+.application_card{
+    display:flex;
+    position: absolute;
+    width: 350px;
+    height: 250px;
+    border-radius: 12px;
+    border: none;
+     background: radial-gradient(circle, #8c81ff, #4535fd);
+    background-size: cover;
+    top:20%;
+    left:15%;
+    color: white;
+     
+    justify-content: center;  
+    align-items: center;   
+}
+.application_card:hover, .interviews_card:hover{
+    transform:translateY(-6px);
+  transition:0.25s;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+.application_card p{
+    top:60%;
+   position: absolute;
+   
+}
+
+.interviews_card{
+  display:flex;
+    position: absolute;
+    width: 350px;
+    height: 250px;
+    border-radius: 12px;
+    border: none;
+     background: radial-gradient(circle, #8c81ff, #4535fd);
+    background-size: cover;
+    top:20%;
+    left:35%;
+    color: white;
+    
+     justify-content: center;  /* horizontal */
+    align-items: center;   
+}
+
+.interviews_card p{
+    top:60%;
+    position: absolute;
+}
+
+.application_calendar{
+position: absolute;
+  width: 410px;
+  height: 480px;  
+padding:15px;
+  border-radius: 25px;
+  background: radial-gradient(circle, #8c81ff, #4535fd);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  left:70%;
+  top:35%;
+  color:white;
+    overflow: hidden;
+}
+.fc {
+  font-size: 0.75rem;
+}
+
+.stats_box{
+    position: absolute;
+    text-align: center;
+    width:350px;
+    height:300px;
+    top:60%;
+    left:15%;
+    font-size: 25px;
+    color: #4535fd;
+     font-weight: 600;
+     border-radius: 12px;
+    border: 2px solid #4535fd;
+}
+
+.upcoming_interviews{
+     position: absolute;
+    top:60%;
+    left:35%;
+    font-size: 25px;
+    color: #4535fd;
+     font-weight: 600;
+      border-radius: 12px;
+    border: 2px solid #4535fd;
+     width:350px;
+    height:300px;
+    text-align: center;
 }

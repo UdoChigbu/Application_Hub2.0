@@ -30,6 +30,9 @@ function Login(){
 
             const data = await response.json();
             if(response.ok){
+                //storing first name
+                const first_name=data.first_name;
+               localStorage.setItem("first_name",first_name);
                 navigate("/dashboard")
             }
             else{
