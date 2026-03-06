@@ -40,7 +40,7 @@ public class Login_controller {
         else {
             return ResponseEntity
             .status(HttpStatus.CONFLICT)
-            .body(Map.of("message","Wrong password or email doesnt exist please try again."));
+            .body(Map.of("message","Wrong password or email doesn't exist please try again."));
         }
 
 
