@@ -6,10 +6,10 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
 
-
 function Dashboard(){
 const first_name = localStorage.getItem("first_name");
 const [events, setEvents] = useState([]);
+const navigate = useNavigate();
 
 const handleDateClick = (info) => {
     const title = prompt("Enter event name:");
@@ -32,7 +32,7 @@ return(
         <h1>Application Hub</h1>
         <p className="welcome_message">Welcome, {first_name}👋</p>
         <div className="quick_actions_box">
-            <button type="submit" className="quick_actions_btn">Add new application.</button>
+            <button type="button" className="quick_actions_btn"  onClick={() => navigate("/Add_application")}>Add new application.</button>
             <button type="submit" className="quick_actions_btn">Add new interview.</button>
             <button type="submit" className="quick_actions_btn">Add new event.</button>
         </div>

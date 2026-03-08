@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+.Add_application_background{
+    font-family: 'Inter', sans-serif;
+    height:100%;
+    background: white;
+    position: relative;
+    justify-content: center;
+    display: flex;
+}
+
+.Add_application_background h1{
+    position: absolute;
+    font-family: 'Inter', sans-serif;
+    font-size: 4ch;
+    color:#4535fd;
+    letter-spacing: .01em;
+    text-align: center;
+    
+    
+}
+
+.job_info_section{
+    width:40%;
+    height:1100px;
+    border-radius: 45px;
+    background-color: rgb(230, 246, 255);
+    position: absolute;
+    top:13%;
+    gap:20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+   
+}
+
+.section_header{
+    position: absolute;
+    font-size: 2.7ch;
+    color:#4535fd;
+    top:1%;
+    font-weight: 600;
+   
+}
+
+.Add_application_background label{
+    color:#4535fd;
+    font-size: large;
+    display: flex;
+    align-items:center;   
+}
+
+
+
+#application_form{
+    display:flex;
+   flex-direction: column;
+    justify-content: center;
+    position: absolute;
+   gap:10px;
+    height:100vh;
+    width:60%;
+    left:25%;
+   
+}
+
+.application_boxes{
+    display: flex;
+    flex-direction: column;
+    height:30%;
+    width:45%;
+    gap:15px;
+}
+
+.notes{
+    height:150px;
+    width:380px;
+}
+
+.application_page_buttons{
+    width: 95px;
+    height: 55px;
+    border-radius: 12px;
+     border: none;
+    background-color: #4535fd;
+    color: rgb(255, 255, 255);
+    font-size: 15px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.save_cancel_box{
+    position: absolute;
+    display:flex;
+    justify-content: center;
+    align-items: end;
+    top:100%;
+    left:5%;
+    width:70%;
+    height:9%;
+    gap:30%;
+}

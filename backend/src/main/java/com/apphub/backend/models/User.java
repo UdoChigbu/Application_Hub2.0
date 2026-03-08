@@ -1,5 +1,7 @@
 package com.apphub.backend.models;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -7,13 +9,16 @@ import jakarta.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long user_id;
 
     private String first;
     private String last;
     private String email;
     private String password;
-  
+    
+     @OneToMany(mappedBy = "user")
+    private List<Application> applications;
+
 
     public User(String first, String last, String email, String password){
         this.first= first;
@@ -25,7 +30,7 @@ public class User {
 
     public User(){}
 
-    public Long getID(){return id;}
+    public Long getID(){return user_id;}
     
     public void setFirst(String first){
         this.first=first;
