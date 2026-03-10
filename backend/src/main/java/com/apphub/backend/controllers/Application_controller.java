@@ -8,22 +8,40 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.apphub.backend.Services.Application_service;
+
+import com.apphub.backend.dto.Application_Request;
 import com.apphub.backend.models.Application;
+
+import com.apphub.backend.repositories.User_repository;
 
 @RestController
 @RequestMapping("/api/applications")
 public class Application_controller {
 
     private final Application_service application_service;
+    
 
-    public Application_controller(Application_service application_service) {
+    public Application_controller(Application_service application_service, User_repository user_repository) {
         this.application_service = application_service;
+        
     }
 
     @PostMapping
-    public ResponseEntity<?> create_application(@RequestBody Application application) {
-        Application created = application_service.create_application(application);
-        return ResponseEntity.ok(created);
+    public ResponseEntity<?> create_application(@RequestBody Application_Request request) {
+       
+             
+             if(application_service.create_application(request)){
+                return ResponseEntity.ok("Application saved successfully");
+             }
+             else{
+                return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(Map.of("message", "Application was not submitted"));
+             }
+        
+        
+             
+        
     }
 
     @GetMapping

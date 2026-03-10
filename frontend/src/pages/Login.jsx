@@ -30,9 +30,13 @@ function Login(){
 
             const data = await response.json();
             if(response.ok){
-                //storing first name
+                //storing first name &user id
                 const first_name=data.first_name;
-               localStorage.setItem("first_name",first_name);
+                const userId=data.userId;
+                
+                localStorage.setItem("first_name",first_name);
+                localStorage.setItem("userId", userId);
+               console.log("Stored userId:", localStorage.getItem("userId"));
                 navigate("/dashboard")
             }
             else{

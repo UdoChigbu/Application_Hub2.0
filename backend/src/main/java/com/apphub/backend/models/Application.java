@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
@@ -47,9 +48,15 @@ public class Application {
         this.notes = notes;
     }
 
-    public Long getId() {
-        return id;
+    public User getUser() {
+    return user;
+}
+
+    public void setUser(User user) {
+        this.user = user;
     }
+
+   
 
     public String getJobTitle() {
         return jobTitle;

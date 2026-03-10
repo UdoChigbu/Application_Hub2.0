@@ -5,14 +5,16 @@ import "../styles/Add_application.css";
 function Add_application(){
 
 const navigate=useNavigate();
-const [formData, setData] = useState({
+const userId = localStorage.getItem("userId");
+const [formData, setFormData] = useState({
     company: "",
     jobTitle: "",
     location: "",
     dateApplied: "",
     deadline:"",
     notes:"",
-
+    status:"",
+    
 });
 
 
@@ -31,10 +33,18 @@ const handleSubmit = async (e)=>{
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify({...formData,
+                userId: Number(userId)
+            })
         });
 
-        const data = await response.json();
+        const data= await response.json();
+        if(response.ok){
+            navigate("/Succesfully_submitted")
+        }
+        else{
+            console.log(data.message);
+        }
 
     }
     catch(error){
@@ -70,7 +80,7 @@ return(
                             placeholder="Enter company name"
                             id="company_name"
                             className="text_box"
-                            value={setData.company}
+                            value={formData.company}
                             onChange={handleChange}
                         />
                     </div>
@@ -81,9 +91,9 @@ return(
                             type="text"
                             name="jobTitle"
                             placeholder="Enter job title"
-                            id="job title"
+                            id="job_title"
                             className="text_box"
-                            value={setData.jobTitle}
+                            value={formData.jobTitle}
                             onChange={handleChange}
                         />
                     </div>
@@ -96,7 +106,7 @@ return(
                             placeholder="e.g. Atlanta, GA"
                             id="location"
                             className="text_box"
-                            value={setData.location}
+                            value={formData.location}
                             onChange={handleChange}
                         />
                     </div>
@@ -108,7 +118,7 @@ return(
                             name="dateApplied"
                             id="date_applied"
                             className="text_box"
-                            value={setData.dateApplied}
+                            value={formData.dateApplied}
                             onChange={handleChange}
                         />
                     </div>
@@ -120,7 +130,7 @@ return(
                             name="deadline"
                             id="deadline"
                             className="text_box"
-                            value={setData.deadline}
+                            value={formData.deadline}
                             onChange={handleChange}
                         />
                     </div>
@@ -132,9 +142,25 @@ return(
                         name="notes"
                         placeholder="Add any notes about the application..."
                         className="notes"
-                        value={setData.notes}
+                        value={formData.notes}
                         onChange={handleChange}
                         ></textarea>
+                    </div>
+
+                    <div className="application_boxes">
+                        <label htmlFor="status" className="status_label">Status</label>
+                        <select
+                            name="status"
+                            className="status"
+                            value={formData.status}
+                            onChange={handleChange}
+                        >
+                            <option value="">Select status</option>
+                            <option value="Applied">Applied</option>
+                            <option value="Interview">Interview</option>
+                            <option value="Rejected">Rejected</option>
+                            <option value="Offer">Offer</option>
+                        </select>
                     </div>
 
                     <div className="save_cancel_box">

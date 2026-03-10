@@ -18,5 +18,6 @@
             "mainClass": "com.apphub.backend.BackendApplication",
             "projectName": "backend"
         }
+     
     ]
 }

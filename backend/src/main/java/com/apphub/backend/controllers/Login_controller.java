@@ -34,8 +34,9 @@ public class Login_controller {
         User user = user_service.login_user(email, password);
         if(user!=null){
            return ResponseEntity.ok(
-            Map.of("first_name", user.getFirst())
-            );
+            Map.of("first_name", user.getFirst(),
+            "userId", user.getID()
+        ));
         }
         else {
             return ResponseEntity

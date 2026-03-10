@@ -8,8 +8,9 @@ import jakarta.persistence.*;
 @Table(name="Users")
 public class User {
     @Id
+    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+    private Long id;
 
     private String first;
     private String last;
@@ -30,7 +31,7 @@ public class User {
 
     public User(){}
 
-    public Long getID(){return user_id;}
+    public Long getID(){return id;}
     
     public void setFirst(String first){
         this.first=first;

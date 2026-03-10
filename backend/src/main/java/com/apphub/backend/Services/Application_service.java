@@ -5,20 +5,44 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.apphub.backend.dto.Application_Request;
 import com.apphub.backend.models.Application;
+import com.apphub.backend.models.User;
 import com.apphub.backend.repositories.Application_repository;
+import com.apphub.backend.repositories.User_repository;
+
 
 @Service
 public class Application_service {
 
     private final Application_repository application_repository;
+    private final User_repository user_repository;
 
-    public Application_service(Application_repository application_repository) {
+    public Application_service(Application_repository application_repository, User_repository user_repository) {
         this.application_repository = application_repository;
+        this.user_repository = user_repository;
     }
 
-    public Application create_application(Application application) {
-        return application_repository.save(application);
+    public Boolean create_application(Application_Request request) {
+        User user = user_repository.findById(request.getUserId())
+        .orElseThrow(() -> new RuntimeException("User not found"));
+        Application application = new Application(
+            request.getJobTitle(),
+            request.getCompany(),
+            request.getStatus(),
+            request.getDateApplied(),
+            request.getDeadline(),
+            request.getLocation(),
+            request.getNotes()
+            );
+        application.setUser(user);
+        if(application_repository.save(application)!=null){
+            return true;
+        }
+        else{
+            return false;
+        }
+       
     }
 
     public List<Application> get_all_applications() {
