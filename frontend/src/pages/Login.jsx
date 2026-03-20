@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import "../styles/Login.css";
 
 function Login(){
@@ -56,6 +56,7 @@ function Login(){
         });
     }
 
+  
 
 
 
@@ -97,6 +98,10 @@ return(
                     <button type="submit" className="login_btn">Submit</button>
                 
                 </form>
+
+                <Link to="/Forgot_password" className="forgot_password_link">
+                    <span>Forgot Password?</span>
+                </Link>
                 
         </div>
 
