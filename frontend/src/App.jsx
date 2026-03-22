@@ -7,7 +7,6 @@ import Add_application from "./pages/Add_application";
 import Succesfully_submitted from "./pages/Succesfully_submitted";
 import Manage_applications from "./pages/Manage_applications";
 import Add_interview from "./pages/add_interview";
-
 function App() {
   return (
     <BrowserRouter>
@@ -24,5 +23,4 @@ function App() {
     </BrowserRouter>
   );
 }
-
 export default App;

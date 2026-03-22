@@ -96,3 +96,11 @@
     justify-content: center;
 }
 
+.forgot_password_link{
+    position: absolute;
+    color:white;
+    top:90%;
+    left:41%;
+    font-size:1.5ch;
+  
+}

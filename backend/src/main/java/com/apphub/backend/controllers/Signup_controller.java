@@ -28,7 +28,7 @@ public class Signup_controller {
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody Map<String, Object> user_data) {
     
-System.out.println("SIGNUP HIT");
+
         String first=(String) user_data.get("first_name");
         String last=(String) user_data.get("last_name");
         String email=(String) user_data.get("email");
