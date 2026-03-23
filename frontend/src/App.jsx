@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import Splash from "./pages/Splash";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
@@ -7,9 +7,10 @@ import Add_application from "./pages/Add_application";
 import Succesfully_submitted from "./pages/Succesfully_submitted";
 import Manage_applications from "./pages/Manage_applications";
 import Add_interview from "./pages/add_interview";
+
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<Splash />} />
         <Route path="/signup" element={<Signup />} />
@@ -20,7 +21,7 @@ function App() {
         <Route path="/Manage_applications" element={<Manage_applications />} />
         <Route path="/Add_interview" element={<Add_interview />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 export default App;
