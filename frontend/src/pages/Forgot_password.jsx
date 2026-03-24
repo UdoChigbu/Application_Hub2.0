@@ -5,6 +5,8 @@ import "../styles/Forgot_password.css";
 function Forgot_password(){
     const navigate = useNavigate();
     const [instructions, setInstructions]=useState("Enter your email and you will receive a code to reset your password.");
+    const[errorMessage, setErrorMessage]=useState("");
+    const[changedPasswordMsg, setchangedPasswordMsg]=useState("");
     const [steps, setSteps]= useState(1);
     const[emailForm, setEmailForm]=useState({
         email: ""
@@ -20,25 +22,21 @@ function Forgot_password(){
     const handleSendEmail = async (e) => {
             e.preventDefault();
                 try{
-                const response = await fetch("http://localhost:8081/api/forgot_password", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
+                    const response = await fetch("http://localhost:8081/api/forgot_password/send_email", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
                 },
                 body: JSON.stringify(emailForm),
                 });
                 
                 if(response.ok){
-                setSteps(2);
-                setInstructions("Type in the code you received in your email to reset your password.");
-                //send user an email with reset code and then once they submit the code check in the backend if its correct
-                /*if (email sent){
-                check if the users input matches the code in the backend;
+                    setSteps(2);
+                    setInstructions("Type in the code you received in your email to reset your password.");
+                    setErrorMessage("");
                 }
                 else{
-                email does not have an account    
-                    }*/
-                   
+                    setErrorMessage("Something went wrong or your account does not exists.")
                 }
                     
                 }
@@ -49,18 +47,84 @@ function Forgot_password(){
         
     const handleSendCode = async(e) => {
         e.preventDefault();
-        if(steps===2){
-            setSteps(3);
-            setInstructions("Type in your new Passoword");
+
+        try{
+                const data = {
+                    email: emailForm.email,
+                    code: codeForm.code
+                };
+                const response = await fetch("http://localhost:8081/api/forgot_password/verify_code", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+                });
+
+                const responseData = await response.json();
+
+                if(response.ok){
+                    setSteps(3);
+                    setInstructions("Type in your new Password");
+                     setErrorMessage("");
+                }
+                else{
+
+                    setErrorMessage(responseData.message)
+                }
+        }
+        catch(error){
+            console.log(error);
         }
     }   
     
     const handleSendNewPassword = async(e) =>{
         e.preventDefault();
-        //if new password meets all requirements and is saved redirect to success
+        //if new password meets all requirements redirect to success page
+        try {
+
+            const data ={
+                email: emailForm.email,
+                newPassword: newPasswordForm.newPassword,
+                confirmNewPassword: newPasswordForm.confirmNewPassword
+            }
+
+            if(newPasswordForm.newPassword!==newPasswordForm.confirmNewPassword){
+                setErrorMessage("Passwords do not match.")
+                return;
+            }
+            if(!newPasswordForm.newPassword || !newPasswordForm.confirmNewPassword){
+                setErrorMessage("Please fill in all fields")
+                return;
+            }
+            setErrorMessage("");
+
+            const response = await fetch("http://localhost:8081/api/forgot_password/change_password",{
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+
+            const responseData = await response.json();
+
+            if(response.ok){
+                // make a page that says their password has been changed with a link that takes them back to login page
+                setSteps(4);
+                setInstructions("");
+                setchangedPasswordMsg("Your password has been succesfully changed! You may return to the login page.🎉");
+            }
+            else{
+                setErrorMessage(data.message);
+            }
+            
+        } catch (error) {
+            
+        }
+
 
     }
-
 
 
 
@@ -97,7 +161,8 @@ function Forgot_password(){
                     &times;
                 </button>
             <h1>Forgot password</h1>
-            <p>{instructions}</p>
+            <p className="instructions">{instructions}</p>
+            <p className="error_message">{errorMessage}</p>
 
             {steps === 1 &&(
             <form id="emailForm" onSubmit={handleSendEmail}>
@@ -158,13 +223,23 @@ function Forgot_password(){
                             placeholder="Re-enter your new password"
                             className="text_box"
                             onChange={handleNewPassword}
-                            value={newPasswordForm.newPassword}
+                            value={newPasswordForm.confirmNewPassword}
                         />
 
 
                     </>
                     <button type="submit" className="submit_btn" >Submit</button>
                 </form>   
+              )}
+
+              {steps === 4 &&(
+                <>
+                    <p className="changed_password_message">{changedPasswordMsg}</p>
+                    <Link to="/Login" className="login_link">
+                        <span>Return to login page here.</span>
+                    </Link>
+                </>
+               
               )}
               
             
