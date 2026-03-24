@@ -25,41 +25,32 @@ public class Application_service {
 
     public Boolean create_application(Application_Request request) {
         User user = user_repository.findById(request.getUserId())
-        .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("User not found"));
         Application application = new Application(
-            request.getJobTitle(),
-            request.getCompany(),
-            request.getStatus(),
-            request.getDateApplied(),
-            request.getDeadline(),
-            request.getLocation(),
-            request.getNotes()
-            );
-            application.setId(application.getId());
+                request.getJobTitle(),
+                request.getCompany(),
+                request.getStatus(),
+                request.getDateApplied(),
+                request.getDeadline(),
+                request.getLocation(),
+                request.getNotes()
+        );
         application.setUser(user);
-        if(application_repository.save(application)!=null){
-            return true;
-        }
-        else{
-            return false;
-        }
-       
+        return application_repository.save(application) != null;
     }
 
     public List<Application> get_all_applications() {
         return application_repository.findAll();
     }
 
-    //get applications by user_id
-    public List<Application> get_applications_by_userId(Long userId){
-       
-        return application_repository.findByUserId(userId);
-    }
-    
-
     public Application get_application_by_id(Long id) {
         Optional<Application> application = application_repository.findById(id);
         return application.orElse(null);
+    }
+
+    // New: get all applications for a specific user
+    public List<Application> get_applications_by_user_id(Long userId) {
+        return application_repository.findByUserId(userId);
     }
 
     public Application update_application(Long id, Application updated_application) {

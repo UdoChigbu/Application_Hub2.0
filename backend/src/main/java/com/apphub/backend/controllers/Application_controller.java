@@ -19,25 +19,20 @@ import com.apphub.backend.repositories.User_repository;
 public class Application_controller {
 
     private final Application_service application_service;
-    
 
     public Application_controller(Application_service application_service, User_repository user_repository) {
         this.application_service = application_service;
-        
     }
 
     @PostMapping
     public ResponseEntity<?> create_application(@RequestBody Application_Request request) {
-       
-             
-             if(application_service.create_application(request)){
-                return ResponseEntity.ok(Map.of("message", "Application saved successfully"));
-             }
-             else{
-                return ResponseEntity
-                .status(HttpStatus.CONFLICT)
-                .body(Map.of("message", "Application was not submitted"));
-             }
+        if (application_service.create_application(request)) {
+            return ResponseEntity.ok(Map.of("message", "Application saved successfully"));
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(Map.of("message", "Application was not submitted"));
+        }
     }
 
     @GetMapping
@@ -45,31 +40,18 @@ public class Application_controller {
         return ResponseEntity.ok(application_service.get_all_applications());
     }
 
-    //get all the users applications
+    // Returns all applications belonging to a specific user
     @GetMapping("/user/{userId}")
-    public ResponseEntity<?> get_application_by_userId(@PathVariable Long userId) {
-        List<Application> application_list = application_service.get_applications_by_userId(userId);
+    public ResponseEntity<?> get_applications_by_userId(@PathVariable Long userId) {
+        List<Application> applications = application_service.get_applications_by_user_id(userId);
 
-        if (application_list != null) {
-            return ResponseEntity.ok(application_list);
+        if (applications != null && !applications.isEmpty()) {
+            return ResponseEntity.ok(applications);
         }
 
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(Map.of("message", "Application not found"));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<?> get_application_by_id (@PathVariable Long id){
-
-        Application application = application_service.get_application_by_id(id);
-
-        if(application!=null){
-            return ResponseEntity.ok(application);
-        }
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(Map.of("message", "Application not found"));
+                .body(Map.of("message", "No applications found for this user"));
     }
 
     @PutMapping("/{id}")
