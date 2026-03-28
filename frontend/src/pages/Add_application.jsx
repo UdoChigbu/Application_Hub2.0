@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 function Add_application(){
 
 const navigate=useNavigate();
-const userId = localStorage.getItem("userId");
+const [userId] = useState(() => Number(localStorage.getItem("userId")));
 localStorage.setItem("formType", "application");
 const { id } = useParams();
 
@@ -55,16 +55,21 @@ const handleSubmit = async (e)=>{
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({...formData,
-                userId: Number(userId)
+                userId
             })
         });
 
         const data= await response.json();
         if(response.ok){
-            
-            localStorage.setItem("userId", userId);
-           
-            navigate("/Succesfully_submitted")
+                const hasSeenApplicationSuccessPage = (localStorage.getItem("seenApplicationSuccessPage"));
+                if(!hasSeenApplicationSuccessPage){
+                    localStorage.setItem("seenApplicationSuccessPage", "true");
+                    localStorage.setItem("formType", "Application")
+                    navigate("/Succesfully_submitted");
+                }
+                else{
+                    navigate("/Dashboard");
+                }
         }
         else{
             console.log(data.message);

@@ -2,6 +2,8 @@ import "../styles/Manage_applications.css";
 import { useState, useEffect } from "react";
 import { useNavigate,Link } from "react-router-dom";
 
+
+
 function Manage_applications(){
     const navigate = useNavigate();
     const userId = localStorage.getItem("userId");
@@ -141,7 +143,7 @@ function Manage_applications(){
 
                 </div>
             </div>
-
+             
             
                     
                     

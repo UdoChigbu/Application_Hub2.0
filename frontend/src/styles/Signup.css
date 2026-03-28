@@ -1,23 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-body{
-     font-family: 'Inter', sans-serif;
-    
-}
 
-.background{
-    height:100%;
-    background: white;
- 
+
+.sign_up_background{
+   font-family: 'Inter', sans-serif;
+    height:100vh;
+    display: flex;
 }
 
 .left_side h1{
     font-size: 3ch;
-    position: absolute;
     font-weight: 370;
-    left:23%;
-    top:1%;
+    left:10%;
+    top:1px;
+    position: absolute;
     color:rgb(255, 255, 255);
-   
      letter-spacing: .08em;
 }
 
@@ -30,8 +26,8 @@ body{
     border-radius: 12px;
      border: none;
     background-color: #ffffff;
-    left:40%;
-    top:103%;
+    left:20%;
+    top:93%;
     color: rgb(0, 0, 0);
     font-size: 15px;
     cursor: pointer;
@@ -49,7 +45,7 @@ body{
     transform: translate(-50%, -50%);
    
     border-radius:45px;
-    height:80%;
+    height:85%;
     width:70%;
 }
 
@@ -65,18 +61,15 @@ body{
     height:90%;
 }
 
+
 .left_side{
-    position:relative;
-    border-radius:45px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    width:50%;
+    flex-direction: column;
+   
     height:100%;
+    width:45%;
+    
 }
-
-
 
 .text_box{
     border: none;
@@ -98,24 +91,26 @@ label{
 }
 
 .left_side form{
-    position: absolute;
+    width:100%;
+    height:100%;
+    padding: 15px;
     display:flex;
     flex-direction: column;
     gap: 15px;
-    left:10%;
+    
+   
     justify-content: center;
 }
 
-.login_link{
-    position: absolute;
-    top:97%;
-    left:29%;
+.left_side .login_link{
+    font-size:smaller;
     color: #ffffff;
-    font-size: smaller;
+    top:88%;
+    left:15%;
 }
 
 .right_side{
-    position:relative;
+  
     border-radius:45px;
     display: flex;
     align-items: center;
@@ -124,7 +119,7 @@ label{
     width:50%;
     height:90%;
     top:16px;
-    right:40px;
+   
   
 }
 
@@ -138,11 +133,9 @@ label{
 
 
 
-.error_message{
-    position: absolute;
-    top: 10%;
-    left: 40%;
-    color:red;
-    font-size: smaller;
+.left_side .error_message {
+    left: 22%;
+    top:8%;
+    z-index: 10;
 }
 

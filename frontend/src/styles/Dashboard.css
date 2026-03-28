@@ -73,7 +73,7 @@ transform:translateY(-6px);
     justify-content: center;  
     align-items: center;   
 }
-.application_card:hover, .interviews_card:hover{
+.application_card:hover, .events_card:hover{
     transform:translateY(-6px);
   transition:0.25s;
   box-shadow:0 10px 25px rgba(0,0,0,0.2);
@@ -85,7 +85,7 @@ transform:translateY(-6px);
    
 }
 
-.interviews_card{
+.events_card{
   display:flex;
     position: absolute;
     width: 350px;
@@ -102,7 +102,7 @@ transform:translateY(-6px);
     align-items: center;   
 }
 
-.interviews_card p{
+.events_card p{
     top:60%;
     position: absolute;
 }
@@ -138,7 +138,7 @@ padding:15px;
     border: 2px solid #4535fd;
 }
 
-.upcoming_interviews{
+.upcoming_events{
      position: absolute;
     top:60%;
     left:35%;
@@ -151,3 +151,9 @@ padding:15px;
     height:300px;
     text-align: center;
 }
+
+.has_event {
+  background-color: #ff91c8;
+  border-radius: 8px;
+}
+

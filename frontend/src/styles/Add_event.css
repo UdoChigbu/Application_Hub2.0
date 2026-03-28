@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+.Add_event_background{
+    font-family: 'Inter', sans-serif;
+    height:100vh;
+    display: flex;
+}
+
+
+.modal{
+    position: absolute;
+    height:85%;
+    width:40%;
+    background: radial-gradient(circle, #afbeff, #4535fd);
+    border-radius:45px;
+    margin: 115px 540px;
+    display:flex;
+    justify-content: center;
+    
+}
+
+h1{
+    text-align: left;
+    font-family: 'Inter', sans-serif;
+    font-size: 6ch;
+    color:#4535fd;
+    letter-spacing: .01em;
+    font-weight: 300;
+    
+    position: absolute;
+}
+
+label{
+    text-align: left;
+    color:white;
+    letter-spacing: .01em;
+    font-size: large;
+    display: flex;
+    align-items:center;
+}
+
+
+.event_form{
+   justify-content: center;
+    position: absolute;
+    top:10%;
+    left:25%;
+   
+    display: flex;
+    flex-direction: column;
+    width:70%;
+    height:88%;
+    gap:30px;
+}
+
+
+
+.save_cancel_container{
+    display:flex;
+    justify-content: center;
+   padding-left:15% ;
+   width:50%;
+  
+    gap:80px;
+    align-items: center;
+ 
+}
+
+.save_cancel_buttons{
+     width: 95px;
+    height: 55px;
+    border-radius: 12px;
+     border: none;
+    background-color:rgb(255, 255, 255) ;
+    color: #4535fd;
+    font-size: 15px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.modal .error_message{
+    
+    left:50%;
+    top:20%;
+   transform: translate(-50%, -50%);
+}
+
+.date_title{
+    margin: 0 auto;
+    font-size: 4ch;
+    color: white;
+    white-space: nowrap;
+    text-align: center;
+}

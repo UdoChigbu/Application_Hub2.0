@@ -39,15 +39,6 @@
     height:80%;
 }
 
-.error_message{
-    position: absolute;
-    transform: translate(-50%, -50%);
-    top: 15%;
-    left:50%;
-    text-align: center;
-    color:red;
-    font-size: smaller;
-}
 
 .login_btn{
     position: absolute;
@@ -64,18 +55,6 @@
     font-size: 15px;
 }
 
-
-.text_box{
-    border: none;
-    border-radius: 30px;
-    width: 20vw;
-    height: 30px;
-    padding: 10px;
-    background-color: white;
-    outline: none;
-   
-
-}
 
 .label{
    
