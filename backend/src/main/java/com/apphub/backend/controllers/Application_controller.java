@@ -12,16 +12,17 @@ import com.apphub.backend.Services.Application_service;
 import com.apphub.backend.dto.Application_Request;
 import com.apphub.backend.models.Application;
 
-import com.apphub.backend.repositories.User_repository;
 
 @RestController
 @RequestMapping("/api/applications")
 public class Application_controller {
 
     private final Application_service application_service;
+   
 
-    public Application_controller(Application_service application_service, User_repository user_repository) {
+    public Application_controller(Application_service application_service) {
         this.application_service = application_service;
+        
     }
 
     @PostMapping
@@ -52,6 +53,19 @@ public class Application_controller {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(Map.of("message", "No applications found for this user"));
+    }
+    // Returns one application so user can edit it
+    @GetMapping("/{id}")
+    public ResponseEntity<?> get_application_by_id(@PathVariable Long id) {
+    Application application = application_service.get_application_by_id(id);
+
+    if (application != null) {
+        return ResponseEntity.ok(application);
+    }
+
+    return ResponseEntity
+            .status(HttpStatus.NOT_FOUND)
+            .body(Map.of("message", "Application not found"));
     }
 
     @PutMapping("/{id}")

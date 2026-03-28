@@ -2,31 +2,35 @@
 
 .Succesfully_submitted_background{
     font-family: 'Inter', sans-serif;
-    height:100%;
+    height:100vh;
     background: white;
     position: relative;
     justify-content: center;
+    align-items: center;
     display: flex;
+    flex-direction: column;
 }
 .Succesfully_submitted_background h1{
     font-size: 5ch;
-    position: absolute;
+    text-align: center;
     color:#4535fd;
     letter-spacing: .01em;
-    top:30%;
+   
     
 }
 
 .dashboard_button{
+    position: absolute;
      width: 110px;
     height: 55px;
     border-radius: 12px;
      border: none;
     background-color: #4535fd;
     color: rgb(255, 255, 255);
-    font-size: 15px;
+    top:60%;
     cursor: pointer;
     font-size: 15px;
-    position: absolute;
-    top:70%;
+    
+ 
+
 }

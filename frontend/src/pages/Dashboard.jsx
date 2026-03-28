@@ -5,16 +5,35 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
+
 function Dashboard() {
   const first_name = localStorage.getItem("first_name");
   const userId = localStorage.getItem("userId");
   const [events, setEvents] = useState([]);
   const navigate = useNavigate();
 
+  const dayCellClassNames = (arg)=>{
+    const date = arg.date.toISOString().split("T")[0];
+    const hasEventOnDay = events.some(event =>
+    event.date?.slice(0, 10) === date
+    );
+
+    return hasEventOnDay ? ["has_event"] : [];
+  };
+
+  //Checks if events are in an array
+  useEffect(()=>{
+   const storedEvents = localStorage.getItem("events");
+   const parsed = storedEvents ? JSON.parse(storedEvents) : [];
+    setEvents(Array.isArray(parsed)? parsed.filter(e => e.date): []);
+    //localStorage.removeItem("seenEventSuccessPage");
+    
+  }, []);
+
   const [stats, setStats] = useState({
     applications: 0,
     interviews: 0,
-    pending: 0,
+    applied: 0,
   });
 
   const [upcomingInterviews, setUpcomingInterviews] = useState([]);
@@ -36,7 +55,7 @@ function Dashboard() {
       setStats({
         applications: applications.length,
         interviews: applications.filter((app) => app.status === "Interview").length,
-        pending: applications.filter((app) => app.status === "Applied").length,
+        applied: applications.filter((app) => app.status === "Applied").length,
       });
     } catch (error) {
       console.error("Error fetching stats:", error);
@@ -58,10 +77,8 @@ function Dashboard() {
   };
 
   const handleDateClick = (info) => {
-    const title = prompt("Enter event name:");
-    if (title) {
-      setEvents([...events, { title, date: info.dateStr }]);
-    }
+    const date = info.dateStr;
+    navigate(`/Add_event/${date}`);
   };
 
   const formatDate = (dateStr) => {
@@ -90,23 +107,11 @@ function Dashboard() {
         <button
           type="button"
           className="quick_actions_btn"
-          onClick={() => navigate("/Add_interview")}
+          onClick={() => navigate("/ai_resume")}
         >
-          Add new interview.
+          Upgrade your resume with AI.
         </button>
-        <button
-          type="button"
-          className="quick_actions_btn"
-          onClick={() => {
-            const title = prompt("Enter event name:");
-            const date = prompt("Enter event date (YYYY-MM-DD):");
-            if (title && date) {
-              setEvents([...events, { title, date }]);
-            }
-          }}
-        >
-          Add new event.
-        </button>
+       
       </div>
 
       <Link to="/Manage_applications" className="app_card_link">
@@ -116,10 +121,10 @@ function Dashboard() {
         </div>
       </Link>
 
-      <Link to="/upcoming_interviews" className="upcoming_interviews_link">
-        <div className="interviews_card">
-          <h2>💻Your interviews</h2>
-          <p>View and manage your interviews</p>
+      <Link to="/Manage_events" className="events_card_link">
+        <div className="events_card">
+          <h2>💻Your Events</h2>
+          <p>View and manage your Events</p>
         </div>
       </Link>
 
@@ -132,6 +137,7 @@ function Dashboard() {
           contentHeight="auto"
           events={events}
           dateClick={handleDateClick}
+          dayCellClassNames={dayCellClassNames}
         />
       </div>
 
@@ -142,12 +148,12 @@ function Dashboard() {
           <>
             <p><span className="stat_number">{stats.applications}</span> 📄 Applications</p>
             <p><span className="stat_number">{stats.interviews}</span> 🎤 Interviews</p>
-            <p><span className="stat_number">{stats.pending}</span> ⏳ Pending</p>
+            <p><span className="stat_number">{stats.applied}</span> ⏳ Applied</p>
           </>
         )}
       </div>
 
-      <div className="upcoming_interviews">
+      <div className="upcoming_events">
         <p className="upcoming_title">Upcoming Events</p>
         {loadingInterviews ? (
           <p>Loading...</p>
@@ -168,6 +174,11 @@ function Dashboard() {
           ))
         )}
       </div>
+      
+   
+
+
+
     </div>
   );
 }

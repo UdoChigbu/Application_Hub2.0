@@ -14,12 +14,12 @@ function Signup() {
   });
   const [errorMessage, setErrorMessage] = useState("");
 
-  // Handle input changes
+  
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle form submission
+
   const handleSubmit = async(e) => {
     e.preventDefault();
 
@@ -39,7 +39,7 @@ function Signup() {
       setErrorMessage("Passwords do not match.");
       return;
     }
-    setErrorMessage("");
+   
 
      try {
         const response = await fetch("http://localhost:8081/api/signup", {
@@ -56,7 +56,7 @@ function Signup() {
         // Success
         navigate("/login"); // Redirect after signup
         } else {
-        // Backend returned an error
+       
         setErrorMessage(data.message || "Signup failed");
         }
         } catch (err) {
@@ -68,16 +68,16 @@ function Signup() {
     };
 
   return (
-<div className="background">
+<div className="sign_up_background">
     <div className="signup_modal">
       <div className="signup_modal_content">
        
 
         {/* Left side */}
         <div className="left_side">
-          {errorMessage && <p className="error_message">{errorMessage}</p>}
+         
           <h1>Create an account</h1>
-
+          {errorMessage && <p className="error_message">{errorMessage}</p>}
           <form id="signup_form" onSubmit={handleSubmit}>
             <label htmlFor="first_name">First name</label>
             <input
