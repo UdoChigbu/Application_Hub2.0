@@ -2,8 +2,8 @@
 
 .Manage_applications_background{
     font-family: 'Inter', sans-serif;
-    height:100%;
-    background: white;
+    height:100vh;
+  
     display: flex;
     justify-content: center;
    
@@ -58,13 +58,14 @@
 }
 
 .table_box_background{
-    margin: 100px auto;
+    top:20%;
+    left:15%;
     width:70%;
     background: radial-gradient(circle, #ffffff, #4535fd);
     border-radius:45px;
     padding:50px;
     position: absolute;
-    top:20%;
+    
 }
 
 .table_box{

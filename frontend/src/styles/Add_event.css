@@ -12,13 +12,15 @@
     width:40%;
     background: radial-gradient(circle, #afbeff, #4535fd);
     border-radius:45px;
-    margin: 115px 540px;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
     display:flex;
     justify-content: center;
     
 }
 
-h1{
+.Add_event_background h1{
     text-align: left;
     font-family: 'Inter', sans-serif;
     font-size: 6ch;

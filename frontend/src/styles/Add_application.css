@@ -2,11 +2,11 @@
 
 .Add_application_background{
     font-family: 'Inter', sans-serif;
-    height:100%;
-    background: white;
-    position: relative;
-    justify-content: center;
+    height:100vh;
+  
     display: flex;
+    justify-content: center;
+    
 }
 
 .Add_application_background h1{
@@ -26,7 +26,8 @@
     border-radius: 45px;
     background-color: rgb(230, 246, 255);
     position: absolute;
-    top:13%;
+    top:15%;
+    left:30%;
     gap:20%;
     display: flex;
     flex-direction: column;

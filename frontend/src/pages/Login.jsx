@@ -62,7 +62,7 @@ function Login(){
 
 
 return(
-    <div className="background">
+    <div className="login_background">
         
         <div className="login_module">
                 <h1>Login</h1>

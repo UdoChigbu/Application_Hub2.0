@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+.event_card_container{
+    position: relative;
+    width: 100%;
+    height: 90%;
+    display: flex;
+    left: 45%;
+    top:5%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.event_card{
+    width:1000px;
+    height:150px;
+    background: radial-gradient(circle, #8c81ff, #4535fd);
+    border-radius: 45px;
+    align-items: flex-start;
+   
+}
+
+

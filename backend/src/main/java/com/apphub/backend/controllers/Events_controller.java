@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,5 +32,12 @@ public class Events_controller {
                 .status(HttpStatus.CONFLICT)
                 .body(Map.of("message", "Event was not created"));
     }
+
+    /*@GetMapping("/get_events/{userId}")
+    public ResponseEntity<?> get_events(@PathVariable Long userId){
+        events_service.get_events_by_user_id(userId);
+
+
+    }*/
     
 }

@@ -26,7 +26,7 @@ function Manage_applications(){
                 setApplications(data);
             }
             catch(error){
-                console.log(error);
+                console.error("Error fetching applications:", error);
             }
         };
 

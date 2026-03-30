@@ -44,18 +44,20 @@ function Add_event(){
             if(response.ok){
                 //save new event
                 const newEvent = {
-                    title: formData.title,
-                    date: date
+                    ...formData,
+                    date: date,
+                    userId: userId
                 };
 
                 //make a list of all events
-                const existingEvents = JSON.parse(localStorage.getItem("events")) || "[]";
+                const allEvents = JSON.parse(localStorage.getItem("events")) || [];
 
                 //update the events
                 const updatedEvents = [
-                    ...existingEvents,
+                    ...allEvents,
                     newEvent
                 ];
+
 
                 // turns list into string
                 localStorage.setItem("events", JSON.stringify(updatedEvents));

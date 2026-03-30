@@ -1,3 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+.background{
+    font-family: 'Inter', sans-serif;
+    height:100vh;
+  
+    display: flex;
+   
+    position: relative;
+   
+}
+
+.blob {
+ 
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 1;
+   
+ 
+}
+
+.blob1{
+    top: 20%;
+    left:1%;
+    background: #a1e9ff;
+}
+
+.blob2{
+    top: 50%;
+    right: 20%;
+    background: #b8ffd2;
+}
+
+.blob3{
+    bottom:1%;
+    left: 18%;
+    background: #ffd5f6;
+}
+
+.blob4 {
+    top:1%;
+    right:1%;
+    background-color: #f7ffb1;
+}
+
+.blob5 {
+    top:1%;
+    right:20%;
+    background-color: #ecd7ff;
+}
+
+.blob6 {
+    bottom:-4%;
+    right:-4%;
+    background: #82e2ff;
+}
+
+
+.background h1{
+    position: absolute;
+   left:1%;
+   top:-3%;
+    font-family: 'Inter', sans-serif;
+    font-size: 6ch;
+    color:#4535fd;
+    letter-spacing: .01em;
+    font-weight: 300;
+    white-space: nowrap;
+}
+
 .home_button{
     position: absolute;
     color: #4535fd;

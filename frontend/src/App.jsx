@@ -10,6 +10,7 @@ import Add_interview from "./pages/add_interview";
 import Forgot_password from "./pages/Forgot_password";
 import Navigation_bar from "./pages/Navigation_bar";
 import Add_event from "./pages/Add_event";
+import Manage_events from "./pages/Manage_events";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/Add_interview" element={<Add_interview />} />
           <Route path="/Add_event/:date" element={<Add_event/>} />
           <Route path="/Edit_application/:id" element={<Add_application />} />
+          <Route path="/Manage_events" element={<Manage_events />} />
         </Route>
       </Routes>
     </BrowserRouter>

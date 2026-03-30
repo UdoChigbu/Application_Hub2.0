@@ -2,8 +2,8 @@
 
 .dashboard_background{
     font-family: 'Inter', sans-serif;
-    height:100%;
-    background: white;
+    height:100vh;
+  
    
 }
 .dashboard_background h1{
@@ -136,6 +136,9 @@ padding:15px;
      font-weight: 600;
      border-radius: 12px;
     border: 2px solid #4535fd;
+    display:flex;
+    flex-direction: column;
+  
 }
 
 .upcoming_events{
@@ -150,6 +153,10 @@ padding:15px;
      width:350px;
     height:300px;
     text-align: center;
+   display: flex;          
+    flex-direction: column; 
+    
+    gap: 20px;          
 }
 
 .has_event {
@@ -157,3 +164,15 @@ padding:15px;
   border-radius: 8px;
 }
 
+.calendar_hint{
+color: gray;
+font-size: 1.3ch;
+position: absolute;
+top:30%;
+left:75%;
+}
+
+.upcoming_events span{
+ 
+  font-size: 1.3ch;
+}

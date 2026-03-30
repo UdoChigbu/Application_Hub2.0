@@ -54,6 +54,7 @@ public class Application_controller {
                 .status(HttpStatus.NOT_FOUND)
                 .body(Map.of("message", "No applications found for this user"));
     }
+    
     // Returns one application so user can edit it
     @GetMapping("/{id}")
     public ResponseEntity<?> get_application_by_id(@PathVariable Long id) {

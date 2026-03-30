@@ -68,7 +68,7 @@ const handleSubmit = async (e)=>{
                     navigate("/Succesfully_submitted");
                 }
                 else{
-                    navigate("/Dashboard");
+                    navigate("/Manage_applications");
                 }
         }
         else{
