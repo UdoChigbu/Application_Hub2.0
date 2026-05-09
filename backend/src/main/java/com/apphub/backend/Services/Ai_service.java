@@ -14,6 +14,7 @@ import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Async;
 
@@ -22,7 +23,9 @@ import org.springframework.scheduling.annotation.Async;
 @Service
 public class Ai_service {
     private final WebClient client;
-   
+
+    @Value("${groq.model}")
+    private String groqModel;
 
     public Ai_service(WebClient client) {
         this.client = client;
@@ -35,35 +38,34 @@ public class Ai_service {
         String prompt = build_resume_improvement_prompt(resume_text, jobPosition);
 
         return client.post()
-        .uri("/api/chat") 
+        .uri("/chat/completions")
         .contentType(MediaType.APPLICATION_JSON)
         .bodyValue(Map.of(
-                "model", "phi3",
-                "messages", List.of(
-                        Map.of(
-                                "role", "system",
-                                "content", "You are an expert resume writer. Follow the requested section structure exactly."
-                        ),
-                        Map.of(
-                                "role", "user",
-                                "content", prompt
-                        )
+            "model", groqModel,
+            "messages", List.of(
+                Map.of(
+                    "role", "system",
+                    "content", "You are an expert resume writer. Follow the requested section structure exactly."
                 ),
-                "options", Map.of(
-                    "temperature", 0.3,
-                    "num_predict", 800
-                ),
-                "stream", false
+                Map.of(
+                    "role", "user",
+                    "content", prompt
+                )
+            ),
+            "temperature", 0.3,
+            "max_completion_tokens", 1200
         ))
         .retrieve()
         .bodyToMono(Map.class)
         .map(res -> {
-          
-            Map message = (Map) res.get("message");
+            List choices = (List) res.get("choices");
+            Map firstChoice = (Map) choices.get(0);
+            Map message = (Map) firstChoice.get("message");
             return message.get("content").toString();
         })
         .map(this::save_as_docx)
         .toFuture();
+
     }
 
     private String build_resume_improvement_prompt(String resumeText, String jobPosition) {

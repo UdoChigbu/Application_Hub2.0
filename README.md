@@ -1,23 +1,80 @@
-<<<<<<< HEAD
 # Application Hub
-A web based job application dashboard designed to help users manage their job search efficiently. The system enables users to submit, track, and update applications while providing real time status monitoring, deadline reminders, and company information through an interactive interface. 
 
-## Run Database
+Application Hub is a web application designed to help users manage and organize job applications in one place. The platform provides tools for tracking applications, storing important information, and streamlining the job search process.
 
-1. Install Docker Desktop
-2. Run `docker-compose up -d` in project root (where docker-compose.yml is)
-3. Database runs at `localhost:3306` with:
-   - user: root
-   - password: rootpassword
-   - db: 4633_db
-4. Download MySQL Workbench
-5. Launch MySQL Workbench after installation.
-   - Click the “+” icon next to MySQL Connections to create a new connection.
-6. Connect to Dockerized MySQL.
+## Live Demo
 
 
 
-=======
-# Application_Hub2.0
-Full-stack Application Hub that helps users manage their job search through application tracking, status organization, and an AI-powered resume enhancement feature that generates and improves resume content using LLM-based suggestions.
->>>>>>> ca9238f60dea132c1b13b80b88ae43e5f249460c
+## Features
+
+* User authentication and account management
+* Create, edit, and delete job applications
+* Track application status updates
+* Store company and position details
+* Create, edit, and delete upcoming events
+* Improve resume with Ai
+* Responsive user interface
+* Database integration for persistent storage
+
+## Technologies Used
+
+### Frontend
+
+* React (Vite)
+* JavaScript
+* CSS
+* React Router DOM
+* FullCalendar (calendar scheduling)
+* GSAP (animations)
+* React Icons / Lucide React (icons)
+
+### Backend
+
+* Java
+* Spring Boot
+* Spring Web (REST APIs)
+* Spring Security (authentication & authorization)
+* Spring Data JPA (database access)
+* Spring WebFlux (WebClient for external API calls)
+* PostgreSQL (database)
+* JWT (authentication tokens)
+* AWS S3 (file storage)
+* Spring Mail (email functionality)
+* Apache POI (file/resume parsing)
+* Lombok (boilerplate reduction)
+
+### Database
+
+* Supabase (PostgreSQL)
+* Used for persistent storage of users, applications, events, and related data
+
+### Tools & Platforms
+
+* Git for version control
+* GitHub for repository hosting and collaboration
+* Visual Studio Code as the primary development environment
+* Maven for backend build and dependency management
+* Vite for frontend build tooling
+
+
+## Learning Outcomes
+
+This project helped strengthen skills in:
+
+* Full-stack web development
+* Database management
+* REST API development
+* Version control with Git and GitHub
+* Software engineering best practices
+
+## Author
+
+Udo Chigbu
+
+* GitHub: https://github.com/UdoChigbu
+* LinkedIn: www.linkedin.com/in/udo-chigbu-47197736b
+
+## License
+
+This project is licensed under the MIT License.
