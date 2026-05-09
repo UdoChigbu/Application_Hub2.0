@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import com.apphub.backend.Services.Application_service;
@@ -26,27 +28,35 @@ public class Application_controller {
         
     }
 
+    private String getCurrentUserEmail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
+    }
+
+
     @PostMapping
     public ResponseEntity<?> create_application(@RequestBody Application_Request request) {
-        if (application_service.create_application(request)) {
+        String email = getCurrentUserEmail();
+        try {
+            application_service.create_application(email, request);
             return ResponseEntity.ok(Map.of("message", "Application saved successfully"));
-        } else {
+        } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
-                    .body(Map.of("message", "Application was not submitted"));
+                    .body(Map.of("message", "Application was not submitted",
+                        "error", e.getMessage()
+                    ));
         }
+        
     }
 
-    @GetMapping
-    public ResponseEntity<List<Application>> get_all_applications() {
-        return ResponseEntity.ok(application_service.get_all_applications());
-    }
 
     // Returns all applications belonging to a specific user
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<?> get_applications_by_userId(@PathVariable Long userId) {
+    @GetMapping("/me")
+    public ResponseEntity<?> get_my_applications() {
         try{
-            List<Application> applications = application_service.get_applications_by_user_id(userId);
+            String email = getCurrentUserEmail();
+            List<Application> applications = application_service.get_applications_by_email(email);
             return ResponseEntity.ok(applications==null ? new ArrayList<>(): applications);
 
         }
@@ -64,11 +74,12 @@ public class Application_controller {
     // Returns one application so user can edit it
     @GetMapping("/{id}")
     public ResponseEntity<?> get_application_by_id(@PathVariable Long id) {
-    Application application = application_service.get_application_by_id(id);
+        String email = getCurrentUserEmail();
+        Application application = application_service.get_application_by_id(email, id);
 
-    if (application != null) {
-        return ResponseEntity.ok(application);
-    }
+        if (application != null) {
+            return ResponseEntity.ok(application);
+        }
 
     return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
@@ -77,7 +88,8 @@ public class Application_controller {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update_application(@PathVariable Long id, @RequestBody Application updated_application) {
-        Application application = application_service.update_application(id, updated_application);
+        String email = getCurrentUserEmail();
+        Application application = application_service.update_application(email, id, updated_application);
 
         if (application != null) {
             return ResponseEntity.ok(application);
@@ -90,7 +102,8 @@ public class Application_controller {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete_application(@PathVariable Long id) {
-        boolean deleted = application_service.delete_application(id);
+        String email = getCurrentUserEmail();
+        boolean deleted = application_service.delete_application(email, id);
 
         if (deleted) {
             return ResponseEntity.ok(Map.of("message", "Application deleted successfully"));

@@ -5,9 +5,10 @@ import { useNavigate,Link } from "react-router-dom";
 
 function Manage_events(){
 
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     const [events, setEvents] = useState([]);
     const navigate = useNavigate();
-    const userId = Number(localStorage.getItem("userId"));
+    const token = localStorage.getItem("token");
     const[openMenuId, setOpenMenuId] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [deleteEventId, setDeleteEventId] = useState(null);
@@ -21,8 +22,11 @@ function Manage_events(){
 
     const handleDelete = async () =>{
         try{
-            const response = await fetch(`http://localhost:8081/api/events/${deleteEventId}`,{
-                method: "DELETE"
+            const response = await fetch(`${API_BASE_URL}/api/events/${deleteEventId}`,{
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             });
             
             if(response.ok){
@@ -48,7 +52,11 @@ function Manage_events(){
     useEffect(()=>{
         const fetchEvents = async ()=>{
             try{
-                const response = await fetch(`http://localhost:8081/api/events/get_events/${userId}`);
+                const response = await fetch(`${API_BASE_URL}/api/events/me`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 const data = await response.json();
                 setEvents(data);
             }
@@ -57,7 +65,7 @@ function Manage_events(){
             }
         }
         fetchEvents();
-    },[userId]);
+    },[token]);
 
 
 

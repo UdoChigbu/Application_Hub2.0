@@ -1,10 +1,7 @@
 package com.apphub.backend.Services;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
-
 import com.apphub.backend.dto.Application_Request;
 import com.apphub.backend.models.Application;
 import com.apphub.backend.models.User;
@@ -23,9 +20,12 @@ public class Application_service {
         this.user_repository = user_repository;
     }
 
-    public Boolean create_application(Application_Request request) {
-        User user = user_repository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public Boolean create_application(String email, Application_Request request) {
+        User user = user_repository.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+       
         Application application = new Application(
                 request.getJobTitle(),
                 request.getCompany(),
@@ -39,43 +39,70 @@ public class Application_service {
         return application_repository.save(application) != null;
     }
 
-    public List<Application> get_all_applications() {
-        return application_repository.findAll();
-    }
 
-    public Application get_application_by_id(Long id) {
-        Optional<Application> application = application_repository.findById(id);
-        return application.orElse(null);
+    public Application get_application_by_id(String email, Long id) {
+        User user = user_repository.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+
+        Application app = application_repository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Application not found"));
+
+        if (!user.getID().equals(app.getUser().getID())) {
+            throw new RuntimeException("Unauthorized access");
+        }
+        return app;
     }
 
     // New: get all applications for a specific user
-    public List<Application> get_applications_by_user_id(Long userId) {
-        return application_repository.findByUserId(userId);
-    }
-
-    public Application update_application(Long id, Application updated_application) {
-        Optional<Application> existing = application_repository.findById(id);
-
-        if (existing.isPresent()) {
-            Application application = existing.get();
-            application.setJobTitle(updated_application.getJobTitle());
-            application.setCompany(updated_application.getCompany());
-            application.setStatus(updated_application.getStatus());
-            application.setDateApplied(updated_application.getDateApplied());
-            application.setDeadline(updated_application.getDeadline());
-            application.setLocation(updated_application.getLocation());
-            application.setNotes(updated_application.getNotes());
-            return application_repository.save(application);
+    public List<Application> get_applications_by_email(String email) {
+        User user = user_repository.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("User not found");
         }
 
-        return null;
+        return application_repository.findByUserId(user.getID());
     }
 
-    public boolean delete_application(Long id) {
-        if (application_repository.existsById(id)) {
-            application_repository.deleteById(id);
-            return true;
+    public Application update_application(String email, Long id, Application updated_application) {
+        User user = user_repository.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("User not found");
         }
-        return false;
+
+        Application app = application_repository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Application not found"));
+
+        if (!user.getID().equals(app.getUser().getID())) {
+            throw new RuntimeException("Unauthorized access");
+        }
+        app.setJobTitle(updated_application.getJobTitle());
+        app.setCompany(updated_application.getCompany());
+        app.setStatus(updated_application.getStatus());
+        app.setDateApplied(updated_application.getDateApplied());
+        app.setDeadline(updated_application.getDeadline());
+        app.setLocation(updated_application.getLocation());
+        app.setNotes(updated_application.getNotes());
+        return application_repository.save(app);
+    
+    }
+
+    public boolean delete_application(String email, Long id) {
+        User user = user_repository.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+
+        Application app = application_repository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Application not found"));
+
+        if (!user.getID().equals(app.getUser().getID())) {
+            throw new RuntimeException("Unauthorized access");
+        }
+
+        application_repository.deleteById(id);
+        return true;
+        
     }
 }

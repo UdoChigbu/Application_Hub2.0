@@ -35,28 +35,14 @@ public class User {
     public User(){}
 
     public Long getID(){return id;}
-    
-    public void setFirst(String first){
-        this.first=first;
-    }
     public String getFirst(){return first;}
-
-    public void setLast(String last){
-        this.last=last;
-    }
     public String getLast(){return last;}
-
-
-    public void setEmail(String email){
-        this.email=email;
-    }
     public String getEmail(){return email;}
-
-    public void setPassword(String password){
-        this.password=password;
-    }
     public String getPassword(){return password;}
 
-   
-
+    public void setFirst(String first){this.first=first;}
+    public void setLast(String last){this.last=last;}
+    public void setEmail(String email){this.email=email;}
+    public void setPassword(String password){this.password=password;}
+    
 }

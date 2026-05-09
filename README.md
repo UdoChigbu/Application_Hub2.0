@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Application Hub
 A web based job application dashboard designed to help users manage their job search efficiently. The system enables users to submit, track, and update applications while providing real time status monitoring, deadline reminders, and company information through an interactive interface. 
 
@@ -16,3 +17,7 @@ A web based job application dashboard designed to help users manage their job se
 
 
 
+=======
+# Application_Hub2.0
+Full-stack Application Hub that helps users manage their job search through application tracking, status organization, and an AI-powered resume enhancement feature that generates and improves resume content using LLM-based suggestions.
+>>>>>>> ca9238f60dea132c1b13b80b88ae43e5f249460c

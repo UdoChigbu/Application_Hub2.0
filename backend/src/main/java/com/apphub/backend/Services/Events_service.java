@@ -25,9 +25,11 @@ public class Events_service {
     }
 
 
-    public Boolean create_event(Events_request request){
-        User user = user_repository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public Boolean create_event(String email, Events_request request){
+        User user = user_repository.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
         Event event = new Event(
             request.getTitle(),
             request.getLocation(),
@@ -39,16 +41,28 @@ public class Events_service {
         return events_repository.save(event) !=null;
     }
 
-    public List<Event> get_events_by_user_id(Long userId){
-        User user = user_repository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public List<Event> get_events_by_email(String email){
+        User user = user_repository.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
         return events_repository.getEventsByUser(user);
 
     }
 
-    public Events_request get_event_by_id(Long id){
+    public Events_request get_event_by_id(String email, Long id){
+        User user = user_repository.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+
         Event event = events_repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Event not found"));
+
+        if (!user.getID().equals(event.getUser().getID())) {
+            throw new RuntimeException("Unauthorized access");
+        }
+
         Long userId = event.getUser().getID(); 
         return new Events_request(
                 event.getTitle(),
@@ -62,9 +76,18 @@ public class Events_service {
 
     }
 
-    public Boolean update_event(Long id, Events_request request){
+    public Boolean update_event(String email, Long id, Events_request request){
+        User user = user_repository.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+
         Event event = events_repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Event not found"));
+
+        if (!user.getID().equals(event.getUser().getID())) {
+            throw new RuntimeException("Unauthorized access");
+        }
     
         event.setTitle(request.getTitle());
         event.setLocation(request.getLocation());
@@ -76,12 +99,21 @@ public class Events_service {
         
     }
 
-    public Boolean delete_event(Long id){
-        if(events_repository.existsById(id)){
-            events_repository.deleteById(id);
-            return true;
+    public Boolean delete_event(String email, Long id){
+        User user = user_repository.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("User not found");
         }
-        return false;
+
+        Event event = events_repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Event not found"));
+
+        if (!user.getID().equals(event.getUser().getID())) {
+            throw new RuntimeException("Unauthorized access");
+        }
+
+        events_repository.deleteById(id);
+        return true;
     }
             
 

@@ -5,8 +5,9 @@ import { useNavigate,Link } from "react-router-dom";
 
 
 function Manage_applications(){
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     const navigate = useNavigate();
-    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
     const [applications, setApplications] = useState([]);
     const [statusFilter, setStatusFilter] = useState("All");
     const[openMenuId, setOpenMenuId] = useState(null);
@@ -22,15 +23,18 @@ function Manage_applications(){
     useEffect(()=>{
         const fetchApplications = async ()=>{
             try{
-                const response = await fetch(`http://localhost:8081/api/applications/user/${userId}`);
-                const data = await response.json();
+                const response = await fetch(`${API_BASE_URL}/api/applications/me`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 
-
                 if(!response.ok){
                     setNoApplicationsMessage("No applications found.");
                     setApplications([]);
                     return;
                 }
+                const data = await response.json();
                 setApplications(Array.isArray(data) ? data :[]);
 
             }
@@ -40,13 +44,16 @@ function Manage_applications(){
         };
 
         fetchApplications();
-    },[userId]);
+    },[token]);
 
 
     const handleDelete = async ()=>{
         try {
-            const response =await fetch(`http://localhost:8081/api/applications/${deletedAppId}`, {
-            method: "DELETE"
+            const response =await fetch(`${API_BASE_URL}/api/applications/${deletedAppId}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
         });
 
         if(response.ok){

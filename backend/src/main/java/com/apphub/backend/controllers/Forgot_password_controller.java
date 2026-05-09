@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.apphub.backend.Services.Forgot_password_service;
+import com.apphub.backend.dto.ForgotPasswordRequest;
 
 
 @RestController
@@ -18,9 +19,8 @@ public class Forgot_password_controller {
     }
 
     @PostMapping("/send_email")
-    public ResponseEntity<?> send_email(@RequestBody Map<String, Object> user_email){
-       String email = (String)user_email.get("email");
-       if(forgot_password_service.send_email(email)){
+    public ResponseEntity<?> send_email(@RequestBody ForgotPasswordRequest data){
+       if(forgot_password_service.send_email(data)){
             return ResponseEntity.ok(Map.of("message", "Email sent successfully"));
        }
         return ResponseEntity
@@ -30,10 +30,8 @@ public class Forgot_password_controller {
     }
 
     @PostMapping("/verify_code")
-    public ResponseEntity<?> verify_code(@RequestBody Map<String, Object> data){
-        String code = (String) data.get("code");
-        String email = (String) data.get("email");
-        if(forgot_password_service.verify_code(code, email)){
+    public ResponseEntity<?> verify_code(@RequestBody ForgotPasswordRequest data){
+        if(forgot_password_service.verify_code(data)){
             return ResponseEntity.ok(Map.of("message", "Code matches"));
         }
        
@@ -45,23 +43,15 @@ public class Forgot_password_controller {
     }
 
     @PostMapping("/change_password")
-    public ResponseEntity<?> change_password(@RequestBody Map<String, Object> data){
+    public ResponseEntity<?> change_password(@RequestBody ForgotPasswordRequest data){
         try {
-            String newPassword = (String) data.get("newPassword");
-            String confirmNewPassword = (String) data.get("confirmNewPassword");
-            String email = (String) data.get("email");
-            if(forgot_password_service.change_password(newPassword, confirmNewPassword, email)){
-                return ResponseEntity.ok(Map.of("message", "Password succesfully changed"));
-            }
-            return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .body(Map.of("message", "Passwords do not match"));
-          
-
+            forgot_password_service.change_password(data);
+            return ResponseEntity.ok(Map.of("message", "Password succesfully changed"));
+            
         } catch (Exception e) {
             return ResponseEntity
             .status(HttpStatus.CONFLICT)
-            .body(Map.of("message","Error changing password"));
+            .body(Map.of("message","Code is incorrect or expired. Try again."));
         }
        
 

@@ -11,6 +11,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.apphub.backend.dto.ForgotPasswordRequest;
 import com.apphub.backend.models.Forgot_password_token;
 import com.apphub.backend.models.User;
 
@@ -47,14 +48,14 @@ public class Forgot_password_service {
     }
 
     
-    public Boolean send_email (String email){
+    public Boolean send_email (ForgotPasswordRequest data){
         String code=code_generator();
        
-        Forgot_password_token token = create_token(email, code);
+        Forgot_password_token token = create_token(data.getEmail(), code);
         if(token!=null){
             
             SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(email);
+            message.setTo(data.getEmail());
             message.setFrom(fromEmail);
             message.setSubject("Application Hub reset code");
             message.setText("Hi,\n\n We received a request to reset your password for your account. Use the code to reset your password:\n\n "
@@ -85,17 +86,38 @@ public class Forgot_password_service {
         return code;
     }
 
-    public Boolean verify_code(String code, String email){
-        Forgot_password_token token = password_reset_repository.getByEmail(email);
+    public Boolean verify_code(ForgotPasswordRequest data){
+        Forgot_password_token token = password_reset_repository.getByEmail(data.getEmail());
         String storedCode = token.getCode();
-        return passwordEncoder.matches(code, storedCode);
+        if(token.getExpirationTime().isBefore(LocalDateTime.now())){
+            password_reset_repository.delete(token);
+            throw new RuntimeException("Code expired");
+        }
+        return passwordEncoder.matches(data.getCode(), storedCode);
     }
 
-    public Boolean change_password(String newPassword, String confirmNewPassword, String email){
-        if(newPassword.equals(confirmNewPassword)){
-            User user = user_repository.findByEmail(email);
-            String hashedPassword = passwordEncoder.encode(newPassword);
+    public Boolean change_password(ForgotPasswordRequest data){
+        User user =  user_repository.findByEmail(data.getEmail());
+        if(user==null){
+            throw new RuntimeException("User not found");
+            //user doesnt have an account
+        }
+
+        Forgot_password_token token = password_reset_repository.getByEmail(data.getEmail());
+        if(token.getExpirationTime().isBefore(LocalDateTime.now())){
+            password_reset_repository.delete(token);
+            throw new RuntimeException("Code expired");
+        }
+
+        String storedCode = token.getCode();
+        if(!passwordEncoder.matches(data.getCode(), storedCode)){
+            throw new RuntimeException("Invalid code");
+        }
+        
+        if(data.getNewPassword().equals(data.getConfirmNewPassword())){
+            String hashedPassword = passwordEncoder.encode(data.getNewPassword());
             user.setPassword(hashedPassword);
+            password_reset_repository.delete(token);
             user_repository.save(user);
 
             return true;

@@ -3,6 +3,7 @@ import { useNavigate,Link } from "react-router-dom";
 import "../styles/Forgot_password.css";
 
 function Forgot_password(){
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     const navigate = useNavigate();
     const [instructions, setInstructions]=useState("Enter your email and you will receive a code to reset your password.");
     const[errorMessage, setErrorMessage]=useState("");
@@ -22,7 +23,7 @@ function Forgot_password(){
     const handleSendEmail = async (e) => {
             e.preventDefault();
                 try{
-                    const response = await fetch("http://localhost:8081/api/forgot_password/send_email", {
+                    const response = await fetch(`${API_BASE_URL}/api/forgot_password/send_email`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -53,7 +54,7 @@ function Forgot_password(){
                     email: emailForm.email,
                     code: codeForm.code
                 };
-                const response = await fetch("http://localhost:8081/api/forgot_password/verify_code", {
+                const response = await fetch(`${API_BASE_URL}/api/forgot_password/verify_code`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -69,8 +70,7 @@ function Forgot_password(){
                      setErrorMessage("");
                 }
                 else{
-
-                    setErrorMessage(responseData.message)
+                    setErrorMessage(responseData.message|| "Error changing password.");
                 }
         }
         catch(error){
@@ -85,6 +85,7 @@ function Forgot_password(){
 
             const data ={
                 email: emailForm.email,
+                code: codeForm.code,
                 newPassword: newPasswordForm.newPassword,
                 confirmNewPassword: newPasswordForm.confirmNewPassword
             }
@@ -97,9 +98,9 @@ function Forgot_password(){
                 setErrorMessage("Please fill in all fields")
                 return;
             }
-            setErrorMessage("");
+           
 
-            const response = await fetch("http://localhost:8081/api/forgot_password/change_password",{
+            const response = await fetch(`${API_BASE_URL}/api/forgot_password/change_password`,{
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -116,11 +117,11 @@ function Forgot_password(){
                 setchangedPasswordMsg("Your password has been succesfully changed! You may return to the login page.🎉");
             }
             else{
-                setErrorMessage(data.message);
+                setErrorMessage(responseData.message);
             }
             
         } catch (error) {
-            
+            console.log(error);
         }
 
 
@@ -161,11 +162,15 @@ function Forgot_password(){
                     &times;
                 </button>
             <h1>Forgot password</h1>
-            <p className="instructions">{instructions}</p>
-            <p className="error_message">{errorMessage}</p>
+            
+                <div className="header_text">
+                    <p className="instructions">{instructions}</p>
+                    {errorMessage && <p className="error_message">{errorMessage}</p>}
+                </div>
 
-            {steps === 1 &&(
-            <form id="emailForm" onSubmit={handleSendEmail}>
+            <div className="steps_container">
+                {steps === 1 &&(
+                <form id="emailForm" onSubmit={handleSendEmail}>
                 <>
                     <label htmlFor="email">Email</label>
                     <input
@@ -226,7 +231,16 @@ function Forgot_password(){
                             value={newPasswordForm.confirmNewPassword}
                         />
 
-
+                    <label htmlFor="code">Enter your code</label>
+                        <input
+                            type="text"
+                            name="code"
+                            id="code"
+                            placeholder="Enter your code"
+                            className="text_box"
+                            onChange={handleCode}
+                            value={codeForm.code}
+                        />
                     </>
                     <button type="submit" className="submit_btn" >Submit</button>
                 </form>   
@@ -236,11 +250,17 @@ function Forgot_password(){
                 <>
                     <p className="changed_password_message">{changedPasswordMsg}</p>
                     <Link to="/Login" className="login_link">
-                        <span>Return to login page here.</span>
+                        <div className="login_link_container">
+                            <span>Return to login page here.</span>
+                        </div>
                     </Link>
                 </>
                
               )}
+            </div>
+            
+
+            
               
             
                

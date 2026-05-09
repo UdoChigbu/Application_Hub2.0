@@ -3,6 +3,7 @@ import { useNavigate,Link } from "react-router-dom";
 import "../styles/Login.css";
 
 function Login(){
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
     const[formData, setFormData]=useState({
@@ -20,10 +21,10 @@ function Login(){
             }
             //send login info to backend
         try {
-        const response = await fetch("http://localhost:8081/api/login", {
+        const response = await fetch(`${API_BASE_URL}/api/login`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(formData),
         });
@@ -31,12 +32,14 @@ function Login(){
             const data = await response.json();
             if(response.ok){
                 //storing first name &user id
-                const first_name=data.first_name;
-                const userId=data.userId;
+                const first_name = data.first_name;
+                const userId = data.userId;
+                const token = data.token;
                 
                 localStorage.setItem("first_name",first_name);
                 localStorage.setItem("userId", userId);
-               console.log("Stored userId:", localStorage.getItem("userId"));
+                localStorage.setItem("token", token);
+                console.log("Stored userId:", localStorage.getItem("userId"));
                 navigate("/dashboard")
             }
             else{

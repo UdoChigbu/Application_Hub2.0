@@ -1,11 +1,6 @@
 package com.apphub.backend.models;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 
@@ -29,9 +24,6 @@ public class Application {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<Interview> interviews = new ArrayList<>();
 
     public Application() {
     }
@@ -122,11 +114,5 @@ public class Application {
         this.notes = notes;
     }
 
-    public List<Interview> getInterviews() {
-        return interviews;
-    }
 
-    public void setInterviews(List<Interview> interviews) {
-        this.interviews = interviews;
-    }
 }

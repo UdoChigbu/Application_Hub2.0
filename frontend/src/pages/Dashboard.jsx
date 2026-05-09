@@ -4,11 +4,14 @@ import "../styles/Dashboard.css";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import { User } from "lucide-react";
 
 
 function Dashboard() {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const first_name = localStorage.getItem("first_name");
   const userId = Number(localStorage.getItem("userId"));
+  const token = localStorage.getItem("token");
   const [events, setEvents] = useState([]);
   const [currentMonth, setCurrentMonth] = useState(new Date().toISOString().slice(0, 7));
   const navigate = useNavigate();
@@ -24,19 +27,30 @@ function Dashboard() {
     return hasEventOnDay ? ["has_event"] : [];
   };
 
-  //Checks if events are in an array
+  const hasEventsThisMonth = events.some(event => event.date?.slice(0, 7) === currentMonth);
+
+
   useEffect(()=>{
-   const storedEvents = localStorage.getItem("events");
-   const parsedEvents = storedEvents ? JSON.parse(storedEvents) : [];
-   const userEvents = parsedEvents.filter(e=> e.userId ===userId);
+    const fetchEvents = async ()=>{
+      try {
+        const response = await fetch (`${API_BASE_URL}/api/events/me`, {
+          headers: {
+          Authorization: `Bearer ${token}`
+          }
+        });
 
-    setEvents(userEvents);
-   // localStorage.removeItem("events");
-    
-  }, [userId]);
+        if(response.ok){
+          const userEvents = await response.json();
+          setEvents(userEvents);
+        }
 
-   //shows only the events of the current month for a specific user
-  const eventsThisMonth = events.filter(event=> event.date?.startsWith(currentMonth));
+      } catch (error) {
+        
+      }
+    }
+    fetchEvents();
+  }, [token]);
+
 
   // maps the events to the format required by full calendar
   const calendarEvents = events.map( event => ({
@@ -50,19 +64,24 @@ function Dashboard() {
     applied: 0,
   });
 
-  const [upcomingInterviews, setUpcomingInterviews] = useState([]);
+  const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [loadingStats, setLoadingStats] = useState(true);
-  const [loadingInterviews, setLoadingInterviews] = useState(true);
+
 
   useEffect(() => {
     fetchStats();
-    fetchUpcomingInterviews();
+    fetchUpcomingEvents();
   }, []);
 
   const fetchStats = async () => {
     try {
       const appRes = await fetch(
-        `http://localhost:8081/api/applications/user/${userId}`
+        `${API_BASE_URL}/api/applications/me`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       const applications = await appRes.json();
 
@@ -78,15 +97,22 @@ function Dashboard() {
     }
   };
 
-  const fetchUpcomingInterviews = async () => {
+  const fetchUpcomingEvents = async () => {
     try {
-      const res = await fetch(`http://localhost:8081/api/interviews/upcoming`);
+      const res = await fetch(`${API_BASE_URL}/api/events/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const data = await res.json();
-      setUpcomingInterviews(data);
+      const firstThreeEvents = data
+      .filter((event) => event.date)
+      .sort((a, b) => new Date(a.date) - new Date(b.date))
+      .slice(0, 3);
+      setUpcomingEvents(firstThreeEvents);
+
     } catch (error) {
-      console.error("Error fetching upcoming interviews:", error);
-    } finally {
-      setLoadingInterviews(false);
+      console.error("Error fetching upcoming events:", error);
     }
   };
 
@@ -105,11 +131,27 @@ function Dashboard() {
     });
   };
 
+  const handleLogout = ()=>{
+    navigate("/Login");
+    localStorage.removeItem("token");
+  };
+
+  const [showLogoutButton, setShowLogoutButton] = useState(false);
+
   return (
     <div className="background">
       <div className="page_content">
       <h1>Application Hub</h1>
       <p className="welcome_message">Welcome, {first_name}👋</p>
+
+        <div className="profile_container" onClick={()=>setShowLogoutButton(!showLogoutButton)}>
+          <User size = {35}/>
+          {showLogoutButton&&(
+            <div className = "logout_dropdown">
+              <button className = "logout_button" onClick={handleLogout}>Sign out?</button>
+            </div>
+        )}
+        </div>
 
       <div className="quick_actions_box">
         <button
@@ -143,7 +185,7 @@ function Dashboard() {
         </div>
       </Link>
 
-      {eventsThisMonth.length === 0 &&(<p className="calendar_hint"> No events this month. Click a day to add one!</p>)}
+      {hasEventsThisMonth === false &&(<p className="calendar_hint"> No events this month. Click a day to add one!</p>)}
       <div className="application_calendar">
         <h3>📅 My Schedule</h3>
         <FullCalendar
@@ -175,28 +217,12 @@ function Dashboard() {
 
       <div className="upcoming_events">
         <p className="upcoming_title">Upcoming Events</p>
-        <span>Resume Work shop March 29</span>
-        <span>Microsoft Interview- March 30</span>
-        <span>Lunch with Fiona April 1</span>
-       
-        {/* {loadingInterviews ? (
-          <p>Loading...</p>
-        ) : upcomingInterviews.length === 0 ? (
-          <p className="no_events">No upcoming interviews scheduled.</p>
-        ) : (
-          upcomingInterviews.map((interview) => (
-            <div key={interview.id} className="upcoming_interview_item">
-              <p className="interview_company">
-                {interview.company} — {interview.jobTitle}
-              </p>
-              <p className="interview_details">
-                📅 {formatDate(interview.interviewDate)}{" "}
-                {interview.interviewTime && `at ${interview.interviewTime}`}
-              </p>
-              <p className="interview_type">{interview.interviewType}</p>
-            </div>
-          ))
-        )}*/}
+        {upcomingEvents.map((event)=>(
+          <div key={event.id}>
+              <span>{event.title}-{formatDate(event.date)}</span>
+          </div>
+        ))}
+        
       </div>
       
    

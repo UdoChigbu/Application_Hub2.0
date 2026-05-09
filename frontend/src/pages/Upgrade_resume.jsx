@@ -5,12 +5,13 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 
 function Upgrade_resume() {
 
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     const navigate = useNavigate();
     const fileRef = useRef(null);
     const [steps, setSteps] = useState(1);
     const [errorMessage, setErrorMessage] = useState("");
     const [jobPosition, setJobPosition] = useState("");
-    const userId = Number(localStorage.getItem("userId"));
+    const token = localStorage.getItem("token");
     const [upgradedResume, setUpgradedResume]=useState("");
     const [isProcessing, setIsProcessing] = useState(false);
     const abortRef = useRef(null);
@@ -43,12 +44,14 @@ function Upgrade_resume() {
             const formData = new FormData();
             formData.append("jobPosition", jobPosition);
             formData.append("file", file);
-            formData.append("userId", userId);
             setIsProcessing(true);
             setSteps(null);
 
-            const response = await fetch("http://localhost:8081/api/upgrade_resume/upload", {
+            const response = await fetch(`${API_BASE_URL}/api/upgrade_resume/upload`, {
                 method:"POST",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
                 body: formData,
                 signal: abortRef.current.signal
             });
@@ -60,14 +63,19 @@ function Upgrade_resume() {
                 
                 const checkStatus = async ()=>{
                     try {
-                        const getUrlResponse = await fetch(`http://localhost:8081/api/upgrade_resume/${fileId}`,
-                            {signal: abortRef.current.signal}
+                        const getUrlResponse = await fetch(`${API_BASE_URL}/api/upgrade_resume/${fileId}`,
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                },
+                                signal: abortRef.current.signal
+                            }
                         );
                         if(getUrlResponse.ok){
                         const getUrlResponseData = await getUrlResponse.json();
                             
                             if(getUrlResponseData.status==="COMPLETED"){
-            
+                                setErrorMessage("");
                                 setIsProcessing(false);
                                 setUpgradedResume(getUrlResponseData.url); 
                                 setSteps(3);
@@ -94,6 +102,7 @@ function Upgrade_resume() {
                       
                     } catch (error) {
                         if(error.name !== "AbortError"){
+                            setErrorMessage("There was an issue uploading your file. Please try again later.");
                             console.error("error getting upgraded resume link: ", error);
                             setIsProcessing(false)
                         }
@@ -103,20 +112,23 @@ function Upgrade_resume() {
                 checkStatus();
             }
             if (!response.ok) {
+                setErrorMessage("There was an issue uploading your file. Please try again later.");
                 throw new Error("Upload failed");
             }
         }
         catch(error){
             if(error.name !== "AbortError"){
+                setErrorMessage("There was an issue uploading your file. Please try again later.");
                 console.error("error uploading file: ", error);
                 setIsProcessing(false);
+                
             }
-            
         }
     };
 
 
     const handleFileChange = (e)=> {
+        setErrorMessage("");
         const file = e.target.files[0];
         if(!file)return;
 
@@ -124,12 +136,13 @@ function Upgrade_resume() {
             setErrorMessage("Only .docx files allowed");
             return;
         }
-      
+        
         handleUpload(file);
         console.log(file);
     };
 
     const handleJobPosition = (e)=>{
+        setErrorMessage("");
         if(!jobPosition.trim())
         {
             setErrorMessage("Please enter the job position you are applying for.");
@@ -150,22 +163,24 @@ function Upgrade_resume() {
                  <button
                     className="close_login_btn"
                     onClick={() =>{
-                        if(steps>1){
-                        setSteps(prev => prev-1);
-                        }
-                        else{
-                            navigate("/Dashboard")
-                        }
-                    }}
+                    if(steps===1){
+                        setErrorMessage("");
+                        navigate("/Dashboard");
+                    }
+                    else{
+                        setErrorMessage("");
+                        setSteps(1);
+                    }
+                }}
                 >
                     &times;
                 </button>
+                {errorMessage && (<p className="error_message">{errorMessage}</p>)}
                 {steps ===1 &&(
                     <>
                         <h2>Upgrade Your Resume</h2>
                         <div className="job_position_content">
-                            {errorMessage && (<p className="error_message">{errorMessage}</p>)}
-                        
+                            
                             <label htmlFor="jobPosition"> Enter the job position you are applying for.</label>
                             <input type="text"
                                 name="jobPosition"
@@ -183,6 +198,7 @@ function Upgrade_resume() {
                      <>
                         <h2> Upload your resume here.</h2>
                         <div className="upload_content">
+                               
                                 <FaCloudUploadAlt className="cloud_icon" />
                                 <input 
                                 type="file"
@@ -215,7 +231,11 @@ function Upgrade_resume() {
                     <>
                         <div className="processing_container">
                             <div className="spinner"></div>
-                            <p>Processing...</p>
+                            <div className="processing_message">
+                                <p>Processing...</p>
+                                <p>This may take a few minutes.</p>
+                            </div>
+                            
                         </div>
                     </>
                    

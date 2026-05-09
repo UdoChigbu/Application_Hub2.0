@@ -6,7 +6,6 @@ import Dashboard from "./pages/Dashboard";
 import Add_application from "./pages/Add_application";
 import Succesfully_submitted from "./pages/Succesfully_submitted";
 import Manage_applications from "./pages/Manage_applications";
-import Add_interview from "./pages/add_interview";
 import Forgot_password from "./pages/Forgot_password";
 import Navigation_bar from "./pages/Navigation_bar";
 import Add_event from "./pages/Add_event";
@@ -22,12 +21,12 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/Forgot_password" element={<Forgot_password/>} />
+          
         <Route element={<Navigation_bar/>}>
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/Add_application" element={<Add_application />} />
           <Route path="/Succesfully_submitted" element={<Succesfully_submitted />} />
           <Route path="/Manage_applications" element={<Manage_applications />} />
-          <Route path="/Add_interview" element={<Add_interview />} />
           <Route path="/Add_event/:date" element={<Add_event/>} />
           <Route path="/Edit_application/:id" element={<Add_application />} />
           <Route path="/Edit_event/:id" element={<Add_event />} />

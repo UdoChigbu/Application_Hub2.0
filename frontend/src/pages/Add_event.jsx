@@ -4,9 +4,10 @@ import { useParams } from "react-router-dom";
 import "../styles/Add_event.css";
 
 function Add_event(){
+   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
    const { id, date } = useParams();
    const navigate = useNavigate();
-   const userId =  Number(localStorage.getItem("userId"));
+   const token = localStorage.getItem("token");
    const [errorMessage, setErrorMessage] = useState("");
 
    const [formData, setFormData] = useState({
@@ -38,7 +39,11 @@ function Add_event(){
         const editEvent = async ()=>{
             try{
                 if(!id)return;
-                const response = await fetch(`http://localhost:8081/api/events/${id}`);
+                const response = await fetch(`${API_BASE_URL}/api/events/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 const data = await response.json();
                 setFormData({
                     ...data,
@@ -66,19 +71,19 @@ function Add_event(){
             return;
         }
         try {
-            const url = id? `http://localhost:8081/api/events/${id}` : `http://localhost:8081/api/events/create_event`;
+            const url = id? `${API_BASE_URL}/api/events/${id}` : `${API_BASE_URL}/api/events/create_event`;
             const method = id? "PUT" : "POST";
             const response = await fetch(url,{
                 method: method,
                 headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify({
                     ...formData,
-                    date: formData.date || date,
-                    userId
+                    date: formData.date || date
                 })
-            });
+        });
 
         
 
@@ -90,8 +95,8 @@ function Add_event(){
                     //save new event
                      const newEvent = {
                     ...formData,
-                    //date: data.date||date,
-                    userId: userId
+                    date: formData.date||date,
+                    
                 };
 
                 //update the events

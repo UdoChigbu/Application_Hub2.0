@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.apphub.backend.Services.User_service;
+import com.apphub.backend.dto.UserRequest;
 
 
 
@@ -26,28 +27,25 @@ public class Signup_controller {
 
     
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody Map<String, Object> user_data) {
+    public ResponseEntity<?> signup(@RequestBody UserRequest userData) {
     
-
-        String first=(String) user_data.get("first_name");
-        String last=(String) user_data.get("last_name");
-        String email=(String) user_data.get("email");
-        String password=(String) user_data.get("password");
-        String confirm_password=(String) user_data.get("confirm_password");
-
-       
-        if(user_service.email_exists(email)){
+        if(user_service.emailExists(userData)){
             return ResponseEntity
             .status(HttpStatus.CONFLICT)
             .body(Map.of("message","Email already registered"));
         }
-        else if(!user_service.passwords_match(password, confirm_password)){
+        else if(!user_service.passwords_match(userData)){
             return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
             .body(Map.of("message","Passwords do not match"));
         }
+        else if(user_service.password_length_invalid(userData)){
+            return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(Map.of("message","Password must be at least 6 characters long"));
+        }
         else{
-            user_service.insert_user(first, last, email, password, confirm_password);
+            user_service.insert_user(userData);
            return ResponseEntity.ok(
             Map.of("message", "Signup successful")
         );

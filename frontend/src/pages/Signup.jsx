@@ -4,6 +4,7 @@ import "../styles/Signup.css";
 
 
 function Signup() {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     first_name: "",
@@ -39,10 +40,15 @@ function Signup() {
       setErrorMessage("Passwords do not match.");
       return;
     }
+
+    if(formData.password.length < 6 || formData.confirm_password.length < 6){
+        setErrorMessage("Password must be at least 6 characters long.");
+        return;
+    }
    
 
      try {
-        const response = await fetch("http://localhost:8081/api/signup", {
+        const response = await fetch(`${API_BASE_URL}/api/signup`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -69,6 +75,7 @@ function Signup() {
 
   return (
 <div className="sign_up_background">
+    <h1>Application Hub</h1>
     <div className="signup_modal">
       <div className="signup_modal_content">
        
@@ -133,15 +140,22 @@ function Signup() {
               value={formData.confirm_password}
               onChange={handleChange}
             />
+            <div className="signup_actions">
+    
+              <button type="submit" className="signup_btn">
+                Sign up
+              </button>
+              
+               <Link to="/login" className="login_link">
+                Have an account? Sign in here
+              </Link>
 
-            <button type="submit" className="signup_btn">
-              Sign up
-            </button>
+            </div>
+            
+           
           </form>
 
-          <Link to="/login" className="login_link">
-            Have an account? Sign in here
-          </Link>
+          
         </div>
         {/* Left side */}
 

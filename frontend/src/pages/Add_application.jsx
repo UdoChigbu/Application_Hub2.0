@@ -5,8 +5,10 @@ import { useParams } from "react-router-dom";
 
 function Add_application(){
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const navigate=useNavigate();
-const userId = Number(localStorage.getItem("userId"));
+
+const token = localStorage.getItem("token");
 localStorage.setItem("formType", "application");
 const { id } = useParams();
 
@@ -14,9 +16,16 @@ useEffect(()=>{
     const editApplication = async ()=> {
         try{
             if(!id) return;
-            const response = await fetch(`http://localhost:8081/api/applications/${id}`);
-            const data = await response.json();
-            setFormData(data);
+            const response = await fetch(`${API_BASE_URL}/api/applications/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if(response.ok){
+                const data = await response.json();
+                setFormData(data);
+            }
+            
         }
         catch(error){
             console.log(error);
@@ -47,20 +56,21 @@ const handleChange = (e)=>{
 const handleSubmit = async (e)=>{
     e.preventDefault();
     const method = id? "PUT" : "POST";
-    const url = id? `http://localhost:8081/api/applications/${id}` :`http://localhost:8081/api/applications`;
+    const url = id? `${API_BASE_URL}/api/applications/${id}` :`${API_BASE_URL}/api/applications`;
     try{
         const response = await fetch(url,{
             method: method,
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
             },
-            body: JSON.stringify({...formData,
-                userId
+            body: JSON.stringify({...formData
             })
         });
 
-        const data= await response.json();
+     
         if(response.ok){
+                const data= await response.json();
                 const hasSeenApplicationSuccessPage = (localStorage.getItem("seenApplicationSuccessPage"));
                 if(!hasSeenApplicationSuccessPage){
                     localStorage.setItem("seenApplicationSuccessPage", "true");

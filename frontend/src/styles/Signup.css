@@ -5,6 +5,19 @@
    font-family: 'Inter', sans-serif;
     height:100vh;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background:  #766aff;
+   
+}
+.sign_up_background h1{
+    font-size: 5ch;
+    font-weight: 370;
+    color:rgb(255, 255, 255);
+    letter-spacing: .08em;
+    margin-top: 1px;
+   
 }
 
 .left_side h1{
@@ -14,20 +27,32 @@
     top:1px;
     position: absolute;
     color:rgb(255, 255, 255);
-     letter-spacing: .08em;
+    letter-spacing: .08em;
 }
 
+.signup_actions{
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+    width:50%;
+    align-items: center;
+    margin:15px 70px;
 
+}
+
+.login_link{
+    font-size:small;
+    color: #ffffff;
+    
+}
 
 .signup_btn{
-    position: absolute;
+  
     width: 75px;
     height: 45px;
     border-radius: 12px;
-     border: none;
+    border: none;
     background-color: #ffffff;
-    left:20%;
-    top:93%;
     color: rgb(0, 0, 0);
     font-size: 15px;
     cursor: pointer;
@@ -35,14 +60,12 @@
 }
 
 .signup_modal{
-    position: absolute;
+    
     background: linear-gradient(to bottom, #f5f4ff, #4535fd);
     align-items: center;
     justify-content: center;
    display:flex;
-   top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  
    
     border-radius:45px;
     height:85%;
@@ -65,7 +88,7 @@
 .left_side{
     display: flex;
     flex-direction: column;
-   
+  
     height:100%;
     width:45%;
     
@@ -97,17 +120,12 @@ label{
     display:flex;
     flex-direction: column;
     gap: 15px;
-    
-   
     justify-content: center;
+    margin:70px 0;
+  
 }
 
-.left_side .login_link{
-    font-size:smaller;
-    color: #ffffff;
-    top:88%;
-    left:15%;
-}
+
 
 .right_side{
   
@@ -135,7 +153,7 @@ label{
 
 .left_side .error_message {
     left: 22%;
-    top:8%;
+    top:5%;
     z-index: 10;
 }
 
