@@ -12,7 +12,7 @@ function Signup() {
     last_name: "",
     email: "",
     password: "",
-    confirm_password: "",
+    confirmPassword: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -131,14 +131,14 @@ function Signup() {
               onChange={handleChange}
             />
 
-            <label htmlFor="confirm_password">Confirm password</label>
+            <label htmlFor="confirmPassword">Confirm password</label>
             <input
               type="password"
-              name="confirm_password"
+              name="confirmPassword"
               placeholder="Confirm password"
-              id="confirm_password"
+              id="confirmPassword"
               className="text_box"
-              value={formData.confirm_password}
+              value={formData.confirmPassword}
               onChange={handleChange}
             />
             <div className="signup_actions">
