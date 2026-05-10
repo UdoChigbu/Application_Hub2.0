@@ -14,7 +14,7 @@ import Upgrade_resume from "./pages/Upgrade_resume";
 
 function App() {
   return (
-    <BrowserRouter basename="/Application_Hub">
+    <BrowserRouter>
       <Routes>
        
           <Route path="/" element={<Splash />} />
