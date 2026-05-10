@@ -45,7 +45,7 @@ public class Ai_service {
             "messages", List.of(
                 Map.of(
                     "role", "system",
-                    "content", "You are an expert resume writer. Follow the requested section structure exactly."
+                    "content", "You are an expert ATS resume writer and career coach."
                 ),
                 Map.of(
                     "role", "user",
@@ -69,18 +69,47 @@ public class Ai_service {
     }
 
     private String build_resume_improvement_prompt(String resumeText, String jobPosition) {
-        return "Improve this resume for the job: " + jobPosition + ".\n" +
-            "Keep contact info exactly the same at the top.\n" +
-            "Do not invent any information.\n" +
-            "Use only these sections in this order: SUMMARY, SKILLS, EXPERIENCE, EDUCATION.\n" +
-            "No fluff. No repeated ideas.\n" +
-            "KEEP IT ONE PAGE.\n"+
-            "SUMMARY: Few sentences tailored to the job.\n" +
-            "SKILLS: most relevant skills first.\n" +
-            "EXPERIENCE: highlight relevant impact and responsibilities for each role.\n" +
-            "EDUCATION: include only school details already in the resume.\n" +
-            "Return only the final resume text.\n\n" +
-            "RESUME:\n" + resumeText;
+        return "RULES:\n" +
+        "- Keep the candidate's name, email, phone number, links, and location exactly the same at the top.\n" +
+        "- Do not invent employers, job titles, dates, degrees, certifications, tools, metrics, or achievements.\n" +
+        "- You may strengthen wording, reorganize content, infer transferable skills from the existing resume, and make responsibilities sound more results-oriented.\n" +
+        "- If a bullet lacks numbers, do not create fake numbers. Instead, emphasize scope, tools, process, ownership, collaboration, or business value.\n" +
+        "- Prioritize keywords and responsibilities relevant to the target role.\n" +
+        "- Remove weak, generic, repeated, or outdated content.\n" +
+        "- Keep the resume realistic, professional, and ready for a human recruiter.\n" +
+        "- Keep it one page, but make the page feel complete and substantial.\n\n" +
+
+        "FORMAT:\n" +
+        "Use only these sections in this order:\n" +
+        "SUMMARY\n" +
+        "SKILLS\n" +
+        "EXPERIENCE\n" +
+        "EDUCATION\n\n" +
+
+        "SUMMARY:\n" +
+        "- Write 1-2 paragraphs, not fluff.\n" +
+        "- Focus on role fit, strongest skills, and relevant experience.\n\n" +
+
+        "SKILLS:\n" +
+        "- Group skills by category if useful.\n" +
+        "- Put the most job-relevant skills first.\n" +
+        "- Only include skills supported by the original resume.\n\n" +
+
+        "EXPERIENCE:\n" +
+        "- Keep each original role that is relevant.\n" +
+        "- For each role, include 3-5 bullet points.\n" +
+        "- Start bullets with strong action verbs.\n" +
+        "- Make each bullet specific, outcome-oriented, and relevant to the target role.\n" +
+        "- Avoid repeating the same action verb or idea.\n\n" +
+
+        "EDUCATION:\n" +
+        "- Include only education details already present in the resume.\n\n" +
+
+        "OUTPUT:\n" +
+        "- Return only the final resume text.\n" +
+        "- Do not include explanations, notes, markdown fences, or comments.\n\n" +
+
+        "ORIGINAL RESUME:\n" + resumeText;
     }
 
     public String extract_text(MultipartFile file){
