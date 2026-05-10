@@ -53,7 +53,7 @@ public class Ai_service {
                 )
             ),
             "temperature", 0.3,
-            "max_completion_tokens", 1200
+            "max_completion_tokens", 2500
         ))
         .retrieve()
         .bodyToMono(Map.class)
@@ -73,10 +73,9 @@ public class Ai_service {
             "Keep contact info exactly the same at the top.\n" +
             "Do not invent any information.\n" +
             "Use only these sections in this order: SUMMARY, SKILLS, EXPERIENCE, EDUCATION.\n" +
-            "Use short bullet points only. No paragraphs. No fluff. No repeated ideas.\n" +
-            "Keep it around 500 words.\n" +
+            "No fluff. No repeated ideas.\n" +
             "KEEP IT ONE PAGE.\n"+
-            "SUMMARY: 2-3 bullets tailored to the job.\n" +
+            "SUMMARY: Few sentences tailored to the job.\n" +
             "SKILLS: most relevant skills first.\n" +
             "EXPERIENCE: highlight relevant impact and responsibilities for each role.\n" +
             "EDUCATION: include only school details already in the resume.\n" +
