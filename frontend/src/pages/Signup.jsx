@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../styles/Signup.css";
+import resumeGirl from "../assets/images/resume_girl.png";
 
 
 function Signup() {
@@ -162,7 +163,7 @@ function Signup() {
         {/* Right side */}
         <div className="right_side">
           <img
-            src="src/assets/images/resume_girl.png"
+            src={resumeGirl}
             alt="girl on computer"
             className="on-computer"
           />
