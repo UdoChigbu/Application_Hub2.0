@@ -8,8 +8,8 @@ function Signup() {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -27,22 +27,22 @@ function Signup() {
 
   //validate fields
     if (
-      !formData.first_name ||
-      !formData.last_name ||
+      !formData.firstName ||
+      !formData.lastName ||
       !formData.email ||
       !formData.password ||
-      !formData.confirm_password
+      !formData.confirmPassword
     ) {
       setErrorMessage("Please fill in all fields.");
       return;
     }
 
-    if (formData.password !== formData.confirm_password) {
+    if (formData.password !== formData.confirmPassword) {
       setErrorMessage("Passwords do not match.");
       return;
     }
 
-    if(formData.password.length < 6 || formData.confirm_password.length < 6){
+    if(formData.password.length < 6 || formData.confirmPassword.length < 6){
         setErrorMessage("Password must be at least 6 characters long.");
         return;
     }
@@ -87,25 +87,25 @@ function Signup() {
           <h1>Create an account</h1>
           {errorMessage && <p className="error_message">{errorMessage}</p>}
           <form id="signup_form" onSubmit={handleSubmit}>
-            <label htmlFor="first_name">First name</label>
+            <label htmlFor="firstName">First name</label>
             <input
               type="text"
-              name="first_name"
+              name="firstName"
               placeholder="First name"
-              id="first_name"
+              id="firstName"
               className="text_box"
-              value={formData.first_name}
+              value={formData.firstName}
               onChange={handleChange}
             />
 
-            <label htmlFor="last_name">Last name</label>
+            <label htmlFor="lastName">Last name</label>
             <input
               type="text"
-              name="last_name"
+              name="lastName"
               placeholder="Last name"
-              id="last_name"
+              id="lastName"
               className="text_box"
-              value={formData.last_name}
+              value={formData.lastName}
               onChange={handleChange}
             />
 
