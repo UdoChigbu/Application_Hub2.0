@@ -40,7 +40,7 @@ function Login(){
                 localStorage.setItem("userId", userId);
                 localStorage.setItem("token", token);
                 console.log("Stored userId:", localStorage.getItem("userId"));
-                navigate("/dashboard")
+                navigate("/Dashboard")
             }
             else{
                 setErrorMessage(data.message);
