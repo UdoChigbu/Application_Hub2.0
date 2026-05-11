@@ -21,11 +21,10 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/Forgot_password" element={<Forgot_password/>} />
-          
+          <Route path="/Succesfully_submitted" element={<Succesfully_submitted />} />
         <Route element={<Navigation_bar/>}>
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/Add_application" element={<Add_application />} />
-          <Route path="/Succesfully_submitted" element={<Succesfully_submitted />} />
           <Route path="/Manage_applications" element={<Manage_applications />} />
           <Route path="/Add_event/:date" element={<Add_event/>} />
           <Route path="/Edit_application/:id" element={<Add_application />} />
