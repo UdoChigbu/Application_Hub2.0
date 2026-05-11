@@ -123,8 +123,10 @@ function Dashboard() {
 
   const formatDate = (dateStr) => {
     if (!dateStr) return "";
-    const date = new Date(dateStr);
-      return new Date(date + "T00:00:00").toLocaleDateString("en-US", {
+     const date = new Date(dateStr);
+
+      return date.toLocaleDateString("en-US", {
+      timeZone: "UTC",
       month: "short",
       day: "numeric",
       year: "numeric",
