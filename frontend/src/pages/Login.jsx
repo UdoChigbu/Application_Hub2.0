@@ -36,7 +36,7 @@ function Login(){
                 const userId = data.userId;
                 const token = data.token;
                 
-                localStorage.setItem("firstName",firstName);
+                localStorage.setItem("first",first);
                 localStorage.setItem("userId", userId);
                 localStorage.setItem("token", token);
                 console.log("Stored userId:", localStorage.getItem("userId"));

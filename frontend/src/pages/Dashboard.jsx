@@ -9,7 +9,7 @@ import { User } from "lucide-react";
 
 function Dashboard() {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-  const first_name = localStorage.getItem("first_name");
+  const first = localStorage.getItem("first");
   const userId = Number(localStorage.getItem("userId"));
   const token = localStorage.getItem("token");
   const [events, setEvents] = useState([]);
@@ -142,7 +142,7 @@ function Dashboard() {
     <div className="background">
       <div className="page_content">
       <h1>Application Hub</h1>
-      <p className="welcome_message">Welcome, {first_name}👋</p>
+      <p className="welcome_message">Welcome, {first}👋</p>
 
         <div className="profile_container" onClick={()=>setShowLogoutButton(!showLogoutButton)}>
           <User size = {35}/>
