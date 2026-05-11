@@ -32,7 +32,7 @@ function Login(){
             const data = await response.json();
             if(response.ok){
                 //storing first name &user id
-                const firstName = data.firstName;
+                const firstName = data.first;
                 const userId = data.userId;
                 const token = data.token;
                 

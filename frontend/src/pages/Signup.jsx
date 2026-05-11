@@ -8,8 +8,8 @@ function Signup() {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    first: "",
+    last: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -27,8 +27,8 @@ function Signup() {
 
   //validate fields
     if (
-      !formData.firstName ||
-      !formData.lastName ||
+      !formData.first ||
+      !formData.last ||
       !formData.email ||
       !formData.password ||
       !formData.confirmPassword
@@ -87,25 +87,25 @@ function Signup() {
           <h1>Create an account</h1>
           {errorMessage && <p className="error_message">{errorMessage}</p>}
           <form id="signup_form" onSubmit={handleSubmit}>
-            <label htmlFor="firstName">First name</label>
+            <label htmlFor="first">First name</label>
             <input
               type="text"
-              name="firstName"
+              name="first"
               placeholder="First name"
-              id="firstName"
+              id="first"
               className="text_box"
-              value={formData.firstName}
+              value={formData.first}
               onChange={handleChange}
             />
 
-            <label htmlFor="lastName">Last name</label>
+            <label htmlFor="last">Last name</label>
             <input
               type="text"
-              name="lastName"
+              name="last"
               placeholder="Last name"
-              id="lastName"
+              id="last"
               className="text_box"
-              value={formData.lastName}
+              value={formData.last}
               onChange={handleChange}
             />
 
