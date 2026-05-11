@@ -32,11 +32,11 @@ function Login(){
             const data = await response.json();
             if(response.ok){
                 //storing first name &user id
-                const first_name = data.first_name;
+                const firstName = data.firstName;
                 const userId = data.userId;
                 const token = data.token;
                 
-                localStorage.setItem("first_name",first_name);
+                localStorage.setItem("firstName",firstName);
                 localStorage.setItem("userId", userId);
                 localStorage.setItem("token", token);
                 console.log("Stored userId:", localStorage.getItem("userId"));

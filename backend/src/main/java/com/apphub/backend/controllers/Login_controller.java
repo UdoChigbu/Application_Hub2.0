@@ -35,7 +35,7 @@ public class Login_controller {
         if(user!=null){
             String token = user_service.generateToken(userData);
            return ResponseEntity.ok(
-            Map.of("first_name", user.getFirst(),
+            Map.of("firstName", user.getFirst(),
             "userId", user.getID(),
             "token", token
         ));
